@@ -17,10 +17,10 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
     $db = $database->getConnection();
 
     // Users instanciation
-    $user = new Users($db);
+    $users = new Users($db);
 
     // Get datas
-    $stmt = $user->read();
+    $stmt = $users->read();
 
     // Verifying that we have at least one user
     if($stmt->rowCount() > 0){
