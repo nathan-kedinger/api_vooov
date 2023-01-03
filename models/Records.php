@@ -1,8 +1,8 @@
 <?php
-class Users{
+class Records{
     // Connection
     private $connection;
-    private $table = "users"; // Table in database
+    private $table = "records"; // Table in database
 
     // Columns
     public $uuid;

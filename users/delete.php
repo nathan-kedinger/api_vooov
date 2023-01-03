@@ -10,7 +10,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 // Verification that used method is correct
 if($_SERVER['REQUEST_METHOD'] == 'DELETE'){
     // Including files for config and data access
-    include_once '..Database.php';
+    include_once '../Database.php';
     include_once '../models/Users.php';
 
     // DDB instanciation
@@ -37,10 +37,9 @@ if($_SERVER['REQUEST_METHOD'] == 'DELETE'){
             http_response_code(503);
             echo json_encode(["message" => "The user haven't been deleted"]);
         }
-
-    }else{
-        http_response_code(405);
-        echo json_encode(["message" => "This method isn't authorised"]);
-
     }
+}else{
+    http_response_code(405);
+    echo json_encode(["message" => "This method isn't authorised"]);
 }
+
