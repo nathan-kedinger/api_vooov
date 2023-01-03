@@ -83,12 +83,14 @@ class Users{
     /**
      * Reading users
      *
-     *@return void
+     *@return $query
      */
     public function read(){
         
-        $sql = "SELECT u.uuid, u.name, u.firstname,u.email, u.phone, u.number_of_followers, u.number_of_moons,
-        u.number_of_friends, u.url_profile_picture, u.description, u.sign_in, u.last_connection FROM " . $this->table ." AS u";
+        $sql = "SELECT * FROM " . $this->table ."";
+
+/*$sql = "SELECT u.uuid, u.name, u.firstname,u.email, u.phone, u.number_of_followers, u.number_of_moons,
+u.number_of_friends, u.url_profile_picture, u.description, u.sign_in, u.last_connection FROM " . $this->table ." AS u";*/
 
         // Request preparation
         $query = $this->connection->prepare($sql);
