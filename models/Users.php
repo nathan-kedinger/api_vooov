@@ -39,9 +39,9 @@ class Users{
      public function create(){
 
         // Writting SQL request by insering table's name
-        $sql = "INSERT INTO " . $this->table . " SET name=:name, firstname=:firstname, email=:email, phone:=phone, number_of_followers=:number_of_followers,
-        number_of_moons=:number_of_moons, number_of_friends=:number_of_friends, url_profile_picture=:url_profile_picture, description=:description,
-        sign_in=:sign_in, last_connection=:last_connection";
+        $sql = "INSERT INTO " . $this->table . " SET name=:name, firstname=:firstname, email=:email, phone:=phone, description=:description, 
+        number_of_followers=:number_of_followers, number_of_moons=:number_of_moons, number_of_friends=:number_of_friends, 
+        url_profile_picture=:url_profile_picture, sign_in=:sign_in, last_connection=:last_connection";
 
         // Request preparation
         $query = $this->connection->prepare($sql);
@@ -51,11 +51,11 @@ class Users{
         $this->firstname=htmlspecialchars(strip_tags($this->firstname));
         $this->email=htmlspecialchars(strip_tags($this->email));
         $this->phone=htmlspecialchars(strip_tags($this->phone));
+        $this->description=htmlspecialchars(strip_tags($this->description));
         $this->number_of_followers=htmlspecialchars(strip_tags($this->number_of_followers));
         $this->number_of_moons=htmlspecialchars(strip_tags($this->number_of_moons));
         $this->number_of_friends=htmlspecialchars(strip_tags($this->number_of_friends));
         $this->url_profile_picture=htmlspecialchars(strip_tags($this->url_profile_picture));
-        $this->description=htmlspecialchars(strip_tags($this->description));
         $this->sign_in=htmlspecialchars(strip_tags($this->sign_in));
         $this->last_connection=htmlspecialchars(strip_tags($this->last_connection));
 
@@ -64,11 +64,11 @@ class Users{
         $query->bindParam(":firstname", $this->firstname);
         $query->bindParam(":email", $this->email);
         $query->bindParam(":phone", $this->phone);
+        $query->bindParam(":description", $this->description);
         $query->bindParam(":number_of_followers", $this->number_of_followers);
         $query->bindParam(":number_of_moons", $this->number_of_moons);
         $query->bindParam(":number_of_friends", $this->number_of_friends);
         $query->bindParam(":url_profile_picture", $this->url_profile_picture);
-        $query->bindParam(":description", $this->description);
         $query->bindParam(":sign_in", $this->sign_in);
         $query->bindParam(":last_connection", $this->last_connection);
 
@@ -110,8 +110,8 @@ u.number_of_friends, u.url_profile_picture, u.description, u.sign_in, u.last_con
      */
     public function readOne(){
         
-        $sql = "SELECT u.uuid, u.name, u.firstname,u.email, u.phone, u.number_of_followers, u.number_of_moons,
-        u.number_of_friends, u.url_profile_picture, u.description, u.sign_in, u.last_connection FROM " . $this->table ." AS u
+        $sql = "SELECT u.uuid, u.name, u.firstname,u.email, u.phone, u.description, u.number_of_followers, u.number_of_moons,
+        u.number_of_friends, u.url_profile_picture, u.sign_in, u.last_connection FROM " . $this->table ." AS u
         WHERE u.uuid = ? LIMIT 0,1";
 
         $query =$this->connection->prepare($sql);
@@ -126,11 +126,11 @@ u.number_of_friends, u.url_profile_picture, u.description, u.sign_in, u.last_con
         $this->firstname = $row['firstname'];
         $this->email = $row['email'];
         $this->phone = $row['phone'];
+        $this->description = $row['description'];
         $this->number_of_followers = $row['number_of_followers'];
         $this->number_of_moons = $row['number_of_moons'];
         $this->number_of_friends = $row['number_of_friends'];
         $this->url_profile_picture = $row['url_profile_picture'];
-        $this->description = $row['description'];
         $this->sign_in = $row['sign_in'];
         $this->last_connection = $row['last_connection'];
 
@@ -169,9 +169,9 @@ u.number_of_friends, u.url_profile_picture, u.description, u.sign_in, u.last_con
      */
     public function update(){
         
-        $sql = "UPDATE " . $this->table . " SET name=:name, firstname=:firstname, email=:email, phone:=phone, number_of_followers=:number_of_followers,
-        number_of_moons=:number_of_moons, number_of_friends=:number_of_friends, url_profile_picture=:url_profile_picture, description=:description,
-        sign_in=:sign_in, last_connection=:last_connection WHERE uuid = :uuid";
+        $sql = "UPDATE " . $this->table . " SET name=:name, firstname=:firstname, email=:email, phone:=phone, description=:description,
+        number_of_followers=:number_of_followers, number_of_moons=:number_of_moons, number_of_friends=:number_of_friends, 
+        url_profile_picture=:url_profile_picture, sign_in=:sign_in, last_connection=:last_connection WHERE uuid = :uuid";
         
         $query = $this->connection->prepare($sql);
 
@@ -180,11 +180,11 @@ u.number_of_friends, u.url_profile_picture, u.description, u.sign_in, u.last_con
         $this->firstname=htmlspecialchars(strip_tags($this->firstname));
         $this->email=htmlspecialchars(strip_tags($this->email));
         $this->phone=htmlspecialchars(strip_tags($this->phone));
+        $this->description=htmlspecialchars(strip_tags($this->description));
         $this->number_of_followers=htmlspecialchars(strip_tags($this->number_of_followers));
         $this->number_of_moons=htmlspecialchars(strip_tags($this->number_of_moons));
         $this->number_of_friends=htmlspecialchars(strip_tags($this->number_of_friends));
         $this->url_profile_picture=htmlspecialchars(strip_tags($this->url_profile_picture));
-        $this->description=htmlspecialchars(strip_tags($this->description));
         $this->sign_in=htmlspecialchars(strip_tags($this->sign_in));
         $this->last_connection=htmlspecialchars(strip_tags($this->last_connection));
 
@@ -193,11 +193,11 @@ u.number_of_friends, u.url_profile_picture, u.description, u.sign_in, u.last_con
         $query->bindParam(":firstname", $this->firstname);
         $query->bindParam(":email", $this->email);
         $query->bindParam(":phone", $this->phone);
+        $query->bindParam(":description", $this->description);
         $query->bindParam(":number_of_followers", $this->number_of_followers);
         $query->bindParam(":number_of_moons", $this->number_of_moons);
         $query->bindParam(":number_of_friends", $this->number_of_friends);
         $query->bindParam(":url_profile_picture", $this->url_profile_picture);
-        $query->bindParam(":description", $this->description);
         $query->bindParam(":sign_in", $this->sign_in);
         $query->bindParam(":last_connection", $this->last_connection);
 

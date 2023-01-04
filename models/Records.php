@@ -6,17 +6,15 @@ class Records{
 
     // Columns
     public $uuid;
-    public $name;
-    public $firstname;
-    public $email;
-    public $phone;
-    public $description;
-    public $number_of_followers;
+    public $artist_uuid;
+    public $title;
+    public $number_of_play;
     public $number_of_moons;
-    public $number_of_friends;
-    public $url_profile_picture;
-    public $sign_in;
-    public $last_connection;
+    public $voice_style;
+    public $kind;
+    public $description;
+    public $created_at;
+    public $updated_at;
 
 
     /**
@@ -39,38 +37,41 @@ class Records{
      public function create(){
 
         // Writting SQL request by insering table's name
-        $sql = "INSERT INTO " . $this->table . " SET name=:name, firstname=:firstname, email=:email, phone:=phone, number_of_followers=:number_of_followers,
-        number_of_moons=:number_of_moons, number_of_friends=:number_of_friends, url_profile_picture=:url_profile_picture, description=:description,
-        sign_in=:sign_in, last_connection=:last_connection";
+        $sql = "INSERT INTO " . $this->table . " t1 INNER JOIN users t2 ON t1.artist_uuid = t2.uuid
+        SET t1.artist_uuid=:artist_uuid, t1.title=:title, t1.number_of_play=:number_of_play, 
+        t1.number_of_moons:=number_of_moons, t1.voice_style=:voice_style, 
+        t1.kind=:kind, t1.description=:description, t1.created_at=:created_at, t1.updated_at=:updated_at";
+        
+        
+        /*"
+        SET artist_uuid=:artist_uuid, title=:title, 
+        number_of_play=:number_of_play, number_of_moons:=number_of_moons, voice_style=:voice_style, 
+        kind=:kind, description=:description, created_at=:created_at, updated_at=:updated_at";*/
 
         // Request preparation
         $query = $this->connection->prepare($sql);
 
         // Protection from injections
-        $this->name=htmlspecialchars(strip_tags($this->name));
-        $this->firstname=htmlspecialchars(strip_tags($this->firstname));
-        $this->email=htmlspecialchars(strip_tags($this->email));
-        $this->phone=htmlspecialchars(strip_tags($this->phone));
-        $this->number_of_followers=htmlspecialchars(strip_tags($this->number_of_followers));
+        $this->artist_uuid=htmlspecialchars(strip_tags($this->artist_uuid));
+        $this->title=htmlspecialchars(strip_tags($this->title));
+        $this->number_of_play=htmlspecialchars(strip_tags($this->number_of_play));
         $this->number_of_moons=htmlspecialchars(strip_tags($this->number_of_moons));
-        $this->number_of_friends=htmlspecialchars(strip_tags($this->number_of_friends));
-        $this->url_profile_picture=htmlspecialchars(strip_tags($this->url_profile_picture));
+        $this->voice_style=htmlspecialchars(strip_tags($this->voice_style));
+        $this->kind=htmlspecialchars(strip_tags($this->kind));
         $this->description=htmlspecialchars(strip_tags($this->description));
-        $this->sign_in=htmlspecialchars(strip_tags($this->sign_in));
-        $this->last_connection=htmlspecialchars(strip_tags($this->last_connection));
+        $this->created_at=htmlspecialchars(strip_tags($this->created_at));
+        $this->updated_at=htmlspecialchars(strip_tags($this->updated_at));
 
         // Adding protected datas
-        $query->bindParam(":name", $this->name);
-        $query->bindParam(":firstname", $this->firstname);
-        $query->bindParam(":email", $this->email);
-        $query->bindParam(":phone", $this->phone);
-        $query->bindParam(":number_of_followers", $this->number_of_followers);
+        $query->bindParam(":artist_uuid", $this->artist_uuid);
+        $query->bindParam(":title", $this->title);
+        $query->bindParam(":number_of_play", $this->number_of_play);
         $query->bindParam(":number_of_moons", $this->number_of_moons);
-        $query->bindParam(":number_of_friends", $this->number_of_friends);
-        $query->bindParam(":url_profile_picture", $this->url_profile_picture);
+        $query->bindParam(":voice_style", $this->voice_style);
+        $query->bindParam(":kind", $this->kind);
         $query->bindParam(":description", $this->description);
-        $query->bindParam(":sign_in", $this->sign_in);
-        $query->bindParam(":last_connection", $this->last_connection);
+        $query->bindParam(":created_at", $this->created_at);
+        $query->bindParam(":updated_at", $this->updated_at);
 
         // Request's execution
         if($query->execute()){
@@ -89,8 +90,8 @@ class Records{
         
         $sql = "SELECT * FROM " . $this->table ."";
 
-/*$sql = "SELECT u.uuid, u.name, u.firstname,u.email, u.phone, u.number_of_followers, u.number_of_moons,
-u.number_of_friends, u.url_profile_picture, u.description, u.sign_in, u.last_connection FROM " . $this->table ." AS u";*/
+/*$sql = "SELECT u.uuid, u.artist_uuid, u.title,u.number_of_play, u.number_of_moons, u.kind, u.description,
+u.created_at, u.updated_at, u.voice_style, u., u. FROM " . $this->table ." AS u";*/
 
         // Request preparation
         $query = $this->connection->prepare($sql);
@@ -110,8 +111,8 @@ u.number_of_friends, u.url_profile_picture, u.description, u.sign_in, u.last_con
      */
     public function readOne(){
         
-        $sql = "SELECT u.uuid, u.name, u.firstname,u.email, u.phone, u.number_of_followers, u.number_of_moons,
-        u.number_of_friends, u.url_profile_picture, u.description, u.sign_in, u.last_connection FROM " . $this->table ." AS u
+        $sql = "SELECT u.uuid, u.artist_uuid, u.title,u.number_of_play, u.number_of_moons,
+        u.voice_style, u.kind, u.description, u.created_at, u.updated_at FROM " . $this->table ." AS u
         WHERE u.uuid = ? LIMIT 0,1";
 
         $query =$this->connection->prepare($sql);
@@ -122,17 +123,15 @@ u.number_of_friends, u.url_profile_picture, u.description, u.sign_in, u.last_con
 
         $row = $query->fetch(PDO::FETCH_ASSOC);
 
-        $this->name = $row['name'];
-        $this->firstname = $row['firstname'];
-        $this->email = $row['email'];
-        $this->phone = $row['phone'];
-        $this->number_of_followers = $row['number_of_followers'];
+        $this->artist_uuid = $row['artist_uuid'];
+        $this->title = $row['title'];
+        $this->number_of_play = $row['number_of_play'];
         $this->number_of_moons = $row['number_of_moons'];
-        $this->number_of_friends = $row['number_of_friends'];
-        $this->url_profile_picture = $row['url_profile_picture'];
+        $this->voice_style = $row['voice_style'];
+        $this->kind = $row['kind'];
         $this->description = $row['description'];
-        $this->sign_in = $row['sign_in'];
-        $this->last_connection = $row['last_connection'];
+        $this->created_at = $row['created_at'];
+        $this->updated_at = $row['updated_at'];
 
     }
 
@@ -169,37 +168,33 @@ u.number_of_friends, u.url_profile_picture, u.description, u.sign_in, u.last_con
      */
     public function update(){
         
-        $sql = "UPDATE " . $this->table . " SET name=:name, firstname=:firstname, email=:email, phone:=phone, number_of_followers=:number_of_followers,
-        number_of_moons=:number_of_moons, number_of_friends=:number_of_friends, url_profile_picture=:url_profile_picture, description=:description,
-        sign_in=:sign_in, last_connection=:last_connection WHERE uuid = :uuid";
+        $sql = "UPDATE " . $this->table . " SET artist_uuid=:artist_uuid, title=:title, number_of_play=:number_of_play, 
+        number_of_moons:=number_of_moons, voice_style=:voice_style, kind=:kind,
+        description=:description, created_at=:created_at, updated_at=:updated_at WHERE uuid = :uuid";
         
         $query = $this->connection->prepare($sql);
 
         // Protection from injections
-        $this->name=htmlspecialchars(strip_tags($this->name));
-        $this->firstname=htmlspecialchars(strip_tags($this->firstname));
-        $this->email=htmlspecialchars(strip_tags($this->email));
-        $this->phone=htmlspecialchars(strip_tags($this->phone));
-        $this->number_of_followers=htmlspecialchars(strip_tags($this->number_of_followers));
+        $this->artist_uuid=htmlspecialchars(strip_tags($this->artist_uuid));
+        $this->title=htmlspecialchars(strip_tags($this->title));
+        $this->number_of_play=htmlspecialchars(strip_tags($this->number_of_play));
         $this->number_of_moons=htmlspecialchars(strip_tags($this->number_of_moons));
-        $this->number_of_friends=htmlspecialchars(strip_tags($this->number_of_friends));
-        $this->url_profile_picture=htmlspecialchars(strip_tags($this->url_profile_picture));
+        $this->voice_style=htmlspecialchars(strip_tags($this->voice_style));
+        $this->kind=htmlspecialchars(strip_tags($this->kind));
         $this->description=htmlspecialchars(strip_tags($this->description));
-        $this->sign_in=htmlspecialchars(strip_tags($this->sign_in));
-        $this->last_connection=htmlspecialchars(strip_tags($this->last_connection));
+        $this->created_at=htmlspecialchars(strip_tags($this->created_at));
+        $this->updated_at=htmlspecialchars(strip_tags($this->updated_at));
 
         // Adding protected datas
-        $query->bindParam(":name", $this->name);
-        $query->bindParam(":firstname", $this->firstname);
-        $query->bindParam(":email", $this->email);
-        $query->bindParam(":phone", $this->phone);
-        $query->bindParam(":number_of_followers", $this->number_of_followers);
+        $query->bindParam(":artist_uuid", $this->artist_uuid);
+        $query->bindParam(":title", $this->title);
+        $query->bindParam(":number_of_play", $this->number_of_play);
         $query->bindParam(":number_of_moons", $this->number_of_moons);
-        $query->bindParam(":number_of_friends", $this->number_of_friends);
-        $query->bindParam(":url_profile_picture", $this->url_profile_picture);
+        $query->bindParam(":voice_style", $this->voice_style);
+        $query->bindParam(":kind", $this->kind);
         $query->bindParam(":description", $this->description);
-        $query->bindParam(":sign_in", $this->sign_in);
-        $query->bindParam(":last_connection", $this->last_connection);
+        $query->bindParam(":created_at", $this->created_at);
+        $query->bindParam(":updated_at", $this->updated_at);
 
         // Request's execution
         if($query->execute()){
