@@ -111,9 +111,9 @@ u.created_at, u.updated_at, u.voice_style, u., u. FROM " . $this->table ." AS u"
      */
     public function readOne(){
         
-        $sql = "SELECT u.uuid, u.artist_uuid, u.title,u.number_of_play, u.number_of_moons,
-        u.voice_style, u.kind, u.description, u.created_at, u.updated_at FROM " . $this->table ." AS u
-        WHERE u.uuid = ? LIMIT 0,1";
+        $sql = "SELECT r.uuid, r.artist_uuid, r.title, r.number_of_play, r.number_of_moons,
+        r.voice_style, r.kind, r.description, r.created_at, r.updated_at FROM " . $this->table ." AS r
+        WHERE r.uuid = ? LIMIT 0,1";
 
         $query =$this->connection->prepare($sql);
 

@@ -5,7 +5,7 @@ class Database{
     private $db_name = "api_rest";
     private $username = "root";
     private $password = "";
-    public $connection;
+    public $connection; 
 
     //getter for connection
     public function getConnection(){
