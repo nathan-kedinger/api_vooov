@@ -9,7 +9,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 // Verification that used method is correct
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
     // Including files for config and data access
-    include_once '../Database.php';
+    include_once '../../Database.php';
     include_once '../models/Users.php';
 
     // DDB instanciation

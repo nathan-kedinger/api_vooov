@@ -9,44 +9,48 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 // Verification that used method is correct
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
     // Including files for config and data access
-    include_once '../Database.php';
-    include_once '../models/Messages.php';
+    include_once '../../Database.php';
+    include_once '../models/Records.php';
 
     // DDB instanciation
     $database = new Database();
     $db = $database->getConnection();
 
-    // Message instanciation
-    $message = new Messages($db);
+    // Records instanciation
+    $records = new Records($db);
 
     // Get datas
-    $stmt = $message->read();
+    $stmt = $records->read();
 
     // Verifying that we have at least one user
     if($stmt->rowCount() > 0){
         //initialisation of an associative tab
 
-        $tabmessage = [];
-        $tabmessage['message'] = [];
+        $tabrecords = [];
+        $tabrecords['records'] = [];
 
         while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             extract($row);
 
-            $message = [
+            $record = [
                 "uuid" => $uuid,
-                "sender" => $sender ,
-                "receiver" => $receiver ,
-                "body" => $body ,
-                "seen" => $seen ,
-                "send_at" => $send_at ,
+                "artist_uuid" => $artist_uuid ,
+                "title" => $title ,
+                "number_of_play" => $number_of_play ,
+                "number_of_moons" => $number_of_moons ,
+                "voice_style" => $voice_style ,
+                "kind" => $kind ,
+                "description" => $description ,
+                "created_at" => $created_at ,
+                "updated_at" => $updated_at,
             ];
 
-            $tabmessage['message'][] = $message;
+            $tabrecords['records'][] = $record;
         }
 
         http_response_code(200);
 
-        echo json_encode($tabmessage);
+        echo json_encode($tabrecords);
 
     }
     

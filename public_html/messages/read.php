@@ -9,50 +9,44 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 // Verification that used method is correct
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
     // Including files for config and data access
-    include_once '../Database.php';
-    include_once '../models/Users.php';
+    include_once '../../Database.php';
+    include_once '../models/Messages.php';
 
     // DDB instanciation
     $database = new Database();
     $db = $database->getConnection();
 
-    // Users instanciation
-    $users = new Users($db);
+    // Message instanciation
+    $message = new Messages($db);
 
     // Get datas
-    $stmt = $users->read();
+    $stmt = $message->read();
 
     // Verifying that we have at least one user
     if($stmt->rowCount() > 0){
         //initialisation of an associative tab
 
-        $tabUsers = [];
-        $tabUsers['users'] = [];
+        $tabmessage = [];
+        $tabmessage['message'] = [];
 
         while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             extract($row);
 
-            $user = [
+            $message = [
                 "uuid" => $uuid,
-                "name" => $name ,
-                "firstname" => $firstname ,
-                "email" => $email ,
-                "phone" => $phone ,
-                "description" => $description ,
-                "number_of_followers" => $number_of_followers ,
-                "number_of_moons" => $number_of_moons ,
-                "number_of_friends" => $number_of_friends ,
-                "url_profile_picture" => $url_profile_picture,
-                "sign_in" => $sign_in,
-                "last_connection" => $last_connection,
+                "sender" => $sender ,
+                "receiver" => $receiver ,
+                "body" => $body ,
+                "seen" => $seen ,
+                "send_at" => $send_at ,
             ];
 
-            $tabUsers['users'][] = $user;
+            $tabmessage['message'][] = $message;
         }
 
         http_response_code(200);
 
-        echo json_encode($tabUsers);
+        echo json_encode($tabmessage);
 
     }
     

@@ -10,45 +10,37 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 // Verification that used method is correct
 if($_SERVER['REQUEST_METHOD'] == 'PUT'){
     // Including files for config and data access
-    include_once '../Database.php';
-    include_once '../models/Records.php';
+    include_once '../../Database.php';
+    include_once '../models/Messages.php';
 
     // DDB instanciation
     $database = new Database();
     $db = $database->getConnection();
 
-    // records instanciation
-    $record = new Records($db);
+    // Messages instanciation
+    $message = new Messages($db);
 
     // Get back sended informations
     $datas = json_decode(file_get_contents("php://input"));
 
-    if(!empty($datas->uuid) && !empty($datas->artist_uuid) && !empty($datas->title) && !empty($datas->number_of_play)
-     && !empty($datas->number_of_moons) && !empty($datas->voice_style) && !empty($datas->kind) 
-     && !empty($datas->description) && !empty($datas->created_at) && !empty($datas->updated_at)){
+    if(!empty($datas->sender) && !empty($datas->receiver) && !empty($datas->body) && !empty($datas->seen) && !empty($datas->send_at)){
 
         //here we receive datas, we hydrate our object
-        $record->uuid = $datas->uuid;
-        $record->artist_uuid = $datas->artist_uuid;
-        $record->title = $datas->title;
-        $record->number_of_play = $datas->number_of_play;
-        $record->number_of_moons = $datas->number_of_moons;
-        $record->voice_style = $datas->voice_style;
-        $record->kind = $datas->kind;
-        $record->description = $datas->description;
-        $record->created_at = $datas->created_at;
-        $record->updated_at = $datas->updated_at;
+        $message->sender = $datas->sender;
+        $message->receiver = $datas->receiver;
+        $message->body = $datas->body;
+        $message->seen = $datas->seen;
+        $message->send_at = $datas->send_at;
 
-        if($record->update()){
+        if($message->update()){
             // Here it worked => code 200
             http_response_code(200);
-            echo json_encode(["massage" => "The add have been done"]);
+            echo json_encode(["message" => "The add have been done"]);
         }else{
             // Here it didn't worked => code 503
             http_response_code(503);
             echo json_encode(["message" => "The add haven't been done"]);
         }
-
       }
 }else{
     // We catch the mistake

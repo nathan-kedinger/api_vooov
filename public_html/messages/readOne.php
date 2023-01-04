@@ -2,15 +2,14 @@
 // Headers
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: DELETE");
+header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-
 // Verification that used method is correct
-if($_SERVER['REQUEST_METHOD'] == 'DELETE'){
+if($_SERVER['REQUEST_METHOD'] == 'GET'){
     // Including files for config and data access
-    include_once '../Database.php';
+    include_once '../../Database.php';
     include_once '../models/Messages.php';
 
     // DDB instanciation
@@ -20,25 +19,36 @@ if($_SERVER['REQUEST_METHOD'] == 'DELETE'){
     // Messages instanciation
     $message = new Messages($db);
 
-    // Get back sended informations
+    // Get datas
     $datas = json_decode(file_get_contents("php://input"));
 
-    if(!empty($datas->uuid)){
 
+    // Verifying that we have at least one message
+    if(!empty($datas->uuid)){
         $message->uuid = $datas->uuid;
 
-        if($message->delete()){
+        $message->readOne();
+        
+            $message = [
+                "uuid" => $message->uuid,
+                "sender" => $message->sender ,
+                "receiver" => $message->receiver ,
+                "body" => $message->body ,
+                "seen" => $message->seen ,
+                "send_at" => $message->send_at ,
+            ];
 
-            http_response_code(200);
+        http_response_code(200);
 
-            echo json_encode(["message" => "The message have been deleted"]);
+        echo json_encode($message);
 
-        }else{
-            http_response_code(503);
-            echo json_encode(["message" => "The message haven't been deleted"]);
-        }
+    }else{
+        http_response_code(404);
+        echo json_encode(array("message" => "This message doesn't exists."));
     }
+    
 }else{
     http_response_code(405);
     echo json_encode(["message" => "This method isn't authorised"]);
+
 }

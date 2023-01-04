@@ -9,48 +9,50 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 // Verification that used method is correct
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
     // Including files for config and data access
-    include_once '../Database.php';
-    include_once '../models/Records.php';
+    include_once '../../Database.php';
+    include_once '../models/Users.php';
 
     // DDB instanciation
     $database = new Database();
     $db = $database->getConnection();
 
-    // Records instanciation
-    $records = new Records($db);
+    // Users instanciation
+    $users = new Users($db);
 
     // Get datas
-    $stmt = $records->read();
+    $stmt = $users->read();
 
     // Verifying that we have at least one user
     if($stmt->rowCount() > 0){
         //initialisation of an associative tab
 
-        $tabrecords = [];
-        $tabrecords['records'] = [];
+        $tabUsers = [];
+        $tabUsers['users'] = [];
 
         while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             extract($row);
 
-            $record = [
+            $user = [
                 "uuid" => $uuid,
-                "artist_uuid" => $artist_uuid ,
-                "title" => $title ,
-                "number_of_play" => $number_of_play ,
-                "number_of_moons" => $number_of_moons ,
-                "voice_style" => $voice_style ,
-                "kind" => $kind ,
+                "name" => $name ,
+                "firstname" => $firstname ,
+                "email" => $email ,
+                "phone" => $phone ,
                 "description" => $description ,
-                "created_at" => $created_at ,
-                "updated_at" => $updated_at,
+                "number_of_followers" => $number_of_followers ,
+                "number_of_moons" => $number_of_moons ,
+                "number_of_friends" => $number_of_friends ,
+                "url_profile_picture" => $url_profile_picture,
+                "sign_in" => $sign_in,
+                "last_connection" => $last_connection,
             ];
 
-            $tabrecords['records'][] = $record;
+            $tabUsers['users'][] = $user;
         }
 
         http_response_code(200);
 
-        echo json_encode($tabrecords);
+        echo json_encode($tabUsers);
 
     }
     
