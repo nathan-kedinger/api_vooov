@@ -2,13 +2,14 @@
 class Records{
     // Connection
     private $connection;
-    private $table = "records"; // Table in database
+    private $table = "audio_records"; // Table in database
 
     // Columns
     public $uuid;
     public $artist_uuid;
     public $title;
-    public $number_of_play;
+    public $length;
+    public $number_of_plays;
     public $number_of_moons;
     public $voice_style;
     public $kind;
@@ -37,15 +38,15 @@ class Records{
      public function create(){
 
         // Writting SQL request by insering table's name
-        $sql = "INSERT INTO " . $this->table . " t1 INNER JOIN users t2 ON t1.artist_uuid = t2.uuid
-        SET t1.uuid=:uuid, t1.artist_uuid=:artist_uuid, t1.title=:title, t1.number_of_play=:number_of_play, 
-        t1.number_of_moons=:number_of_moons, t1.voice_style=:voice_style, 
-        t1.kind=:kind, t1.description=:description, t1.created_at=:created_at, t1.updated_at=:updated_at";
+        $sql = "INSERT INTO " . $this->table . "
+        SET uuid=:uuid, artist_uuid=:artist_uuid, title=:title, length=:length, number_of_plays=:number_of_plays, 
+        number_of_moons=:number_of_moons, voice_style=:voice_style, 
+        kind=:kind, description=:description, created_at=:created_at, updated_at=:updated_at";
         
         
         /*"
         SET artist_uuid=:artist_uuid, title=:title, 
-        number_of_play=:number_of_play, number_of_moons:=number_of_moons, voice_style=:voice_style, 
+        number_of_plays=:number_of_plays, number_of_moons:=number_of_moons, voice_style=:voice_style, 
         kind=:kind, description=:description, created_at=:created_at, updated_at=:updated_at";*/
 
         try{
@@ -56,7 +57,8 @@ class Records{
             $this->uuid=htmlspecialchars(strip_tags($this->uuid));
             $this->artist_uuid=htmlspecialchars(strip_tags($this->artist_uuid));
             $this->title=htmlspecialchars(strip_tags($this->title));
-            $this->number_of_play=htmlspecialchars(strip_tags($this->number_of_play));
+            $this->length=htmlspecialchars(strip_tags($this->length));
+            $this->number_of_plays=htmlspecialchars(strip_tags($this->number_of_plays));
             $this->number_of_moons=htmlspecialchars(strip_tags($this->number_of_moons));
             $this->voice_style=htmlspecialchars(strip_tags($this->voice_style));
             $this->kind=htmlspecialchars(strip_tags($this->kind));
@@ -65,10 +67,11 @@ class Records{
             $this->updated_at=htmlspecialchars(strip_tags($this->updated_at));
 
             // Adding protected datas
-            $query->bindParam(":artist_uuid", $this->uuid);
+            $query->bindParam(":uuid", $this->uuid);
             $query->bindParam(":artist_uuid", $this->artist_uuid);
             $query->bindParam(":title", $this->title);
-            $query->bindParam(":number_of_play", $this->number_of_play);
+            $query->bindParam(":length", $this->length);
+            $query->bindParam(":number_of_plays", $this->number_of_plays);
             $query->bindParam(":number_of_moons", $this->number_of_moons);
             $query->bindParam(":voice_style", $this->voice_style);
             $query->bindParam(":kind", $this->kind);
@@ -97,7 +100,7 @@ class Records{
         
         $sql = "SELECT * FROM " . $this->table ."";
 
-/*$sql = "SELECT u.uuid, u.artist_uuid, u.title,u.number_of_play, u.number_of_moons, u.kind, u.description,
+/*$sql = "SELECT u.uuid, u.artist_uuid, u.title,u.number_of_plays, u.number_of_moons, u.kind, u.description,
 u.created_at, u.updated_at, u.voice_style, u., u. FROM " . $this->table ." AS u";*/
 
         // Request preparation
@@ -118,7 +121,7 @@ u.created_at, u.updated_at, u.voice_style, u., u. FROM " . $this->table ." AS u"
      */
     public function readOne(){
         
-        $sql = "SELECT r.uuid, r.artist_uuid, r.title, r.number_of_play, r.number_of_moons,
+        $sql = "SELECT r.uuid, r.artist_uuid, r.title, r.length, r.number_of_plays, r.number_of_moons,
         r.voice_style, r.kind, r.description, r.created_at, r.updated_at FROM " . $this->table ." AS r
         WHERE r.uuid = ? LIMIT 0,1";
 
@@ -130,9 +133,11 @@ u.created_at, u.updated_at, u.voice_style, u., u. FROM " . $this->table ." AS u"
 
         $row = $query->fetch(PDO::FETCH_ASSOC);
 
+        $this->artist_uuid = $row['uuid'];
         $this->artist_uuid = $row['artist_uuid'];
         $this->title = $row['title'];
-        $this->number_of_play = $row['number_of_play'];
+        $this->title = $row['length'];
+        $this->number_of_plays = $row['number_of_plays'];
         $this->number_of_moons = $row['number_of_moons'];
         $this->voice_style = $row['voice_style'];
         $this->kind = $row['kind'];
@@ -175,7 +180,7 @@ u.created_at, u.updated_at, u.voice_style, u., u. FROM " . $this->table ." AS u"
      */
     public function update(){
         
-        $sql = "UPDATE " . $this->table . " SET artist_uuid=:artist_uuid, title=:title, number_of_play=:number_of_play, 
+        $sql = "UPDATE " . $this->table . " SET uuid=:uuid, artist_uuid=:artist_uuid, title=:title, length=:length, number_of_plays=:number_of_plays, 
         number_of_moons=:number_of_moons, voice_style=:voice_style, kind=:kind,
         description=:description, created_at=:created_at, updated_at=:updated_at WHERE uuid = :uuid";
         
@@ -186,7 +191,8 @@ u.created_at, u.updated_at, u.voice_style, u., u. FROM " . $this->table ." AS u"
             $this->uuid=htmlspecialchars(strip_tags($this->uuid));
             $this->artist_uuid=htmlspecialchars(strip_tags($this->artist_uuid));
             $this->title=htmlspecialchars(strip_tags($this->title));
-            $this->number_of_play=htmlspecialchars(strip_tags($this->number_of_play));
+            $this->length=htmlspecialchars(strip_tags($this->length));
+            $this->number_of_plays=htmlspecialchars(strip_tags($this->number_of_plays));
             $this->number_of_moons=htmlspecialchars(strip_tags($this->number_of_moons));
             $this->voice_style=htmlspecialchars(strip_tags($this->voice_style));
             $this->kind=htmlspecialchars(strip_tags($this->kind));
@@ -198,7 +204,8 @@ u.created_at, u.updated_at, u.voice_style, u., u. FROM " . $this->table ." AS u"
             $query->bindParam(":uuid", $this->uuid);
             $query->bindParam(":artist_uuid", $this->artist_uuid);
             $query->bindParam(":title", $this->title);
-            $query->bindParam(":number_of_play", $this->number_of_play);
+            $query->bindParam(":length", $this->length);
+            $query->bindParam(":number_of_plays", $this->number_of_plays);
             $query->bindParam(":number_of_moons", $this->number_of_moons);
             $query->bindParam(":voice_style", $this->voice_style);
             $query->bindParam(":kind", $this->kind);

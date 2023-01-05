@@ -51,9 +51,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             echo json_encode(["message" => "The add haven't been done"]);
         }
 
+    }else{
+        // We catch the error
+        http_response_code(403);
+        echo json_encode(["message" => "Number of arguments doesn't match"]);
     }
 }else{
-    // We catch the mistake
+    // We catch the error
     http_response_code(405);
     echo json_encode(["message" => "This method isn't authorised"]);
 }

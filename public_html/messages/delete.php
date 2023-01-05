@@ -37,6 +37,10 @@ if($_SERVER['REQUEST_METHOD'] == 'DELETE'){
             http_response_code(503);
             echo json_encode(["message" => "The message haven't been deleted"]);
         }
+    }else{
+        // We catch the error
+        http_response_code(403);
+        echo json_encode(["message" => "Arguments doesn't match"]);
     }
 }else{
     http_response_code(405);

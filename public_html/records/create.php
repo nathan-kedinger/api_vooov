@@ -18,28 +18,29 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $db = $database->getConnection();
 
     // Records instanciation
-    $user = new Records($db);
+    $record = new Records($db);
 
     // Get back sended informations
     $datas = json_decode(file_get_contents("php://input"));
 
-    if(!empty($datas->uuid) && !empty($datas->artist_uuid) && !empty($datas->title)
+    if(!empty($datas->uuid) && !empty($datas->artist_uuid) && !empty($datas->title) && !empty($datas->$length) && !empty($datas->$number_of_plays)
      && !empty($datas->number_of_moons) && !empty($datas->voice_style) && !empty($datas->kind) && !empty($datas->description) && !empty($datas->created_at)
       && !empty($datas->updated_at)){
 
         //here we receive datas, we hydrate our object
-        $user->uuid = $datas->uuid;
-        $user->artist_uuid = $datas->artist_uuid;
-        $user->title = $datas->title;
-        $user->number_of_play = $datas->number_of_play;
-        $user->number_of_moons = $datas->number_of_moons;
-        $user->voice_style = $datas->voice_style;
-        $user->kind = $datas->kind;
-        $user->description = $datas->description;
-        $user->created_at = $datas->created_at;
-        $user->updated_at = $datas->updated_at;
+        $record->uuid = $datas->uuid;
+        $record->artist_uuid = $datas->artist_uuid;
+        $record->title = $datas->title;
+        $record->length = $datas->length;
+        $record->number_of_plays = $datas->number_of_plays;
+        $record->number_of_moons = $datas->number_of_moons;
+        $record->voice_style = $datas->voice_style;
+        $record->kind = $datas->kind;
+        $record->description = $datas->description;
+        $record->created_at = $datas->created_at;
+        $record->updated_at = $datas->updated_at;
 
-        if($user->create()){
+        if($record->create()){
             // Here it worked => code 201
             http_response_code(201);
             echo json_encode(["massage" => "The add have been done"]);
@@ -49,9 +50,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             echo json_encode(["message" => "The add haven't been done"]);
         }
 
-      }
+      }else{
+        // We catch the error
+        http_response_code(403);
+        echo json_encode(["message" => "Number of arguments doesn't match"]);
+    }
 }else{
-    // We catch the mistake
+    // We catch the error
     http_response_code(405);
     echo json_encode(["message" => "This method isn't authorised"]);
 }

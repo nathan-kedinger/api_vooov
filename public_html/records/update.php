@@ -23,7 +23,7 @@ if($_SERVER['REQUEST_METHOD'] == 'PUT'){
     // Get back sended informations
     $datas = json_decode(file_get_contents("php://input"));
 
-    if(!empty($datas->uuid) && !empty($datas->artist_uuid) && !empty($datas->title) && !empty($datas->number_of_play)
+    if(!empty($datas->uuid) && !empty($datas->artist_uuid) && !empty($datas->title) && !empty($datas->length) && !empty($datas->number_of_plays)
      && !empty($datas->number_of_moons) && !empty($datas->voice_style) && !empty($datas->kind) 
      && !empty($datas->description) && !empty($datas->created_at) && !empty($datas->updated_at)){
 
@@ -31,7 +31,8 @@ if($_SERVER['REQUEST_METHOD'] == 'PUT'){
         $record->uuid = $datas->uuid;
         $record->artist_uuid = $datas->artist_uuid;
         $record->title = $datas->title;
-        $record->number_of_play = $datas->number_of_play;
+        $record->length = $datas->length;
+        $record->number_of_plays = $datas->number_of_plays;
         $record->number_of_moons = $datas->number_of_moons;
         $record->voice_style = $datas->voice_style;
         $record->kind = $datas->kind;
@@ -49,7 +50,11 @@ if($_SERVER['REQUEST_METHOD'] == 'PUT'){
             echo json_encode(["message" => "The add haven't been done"]);
         }
 
-      }
+      }else{
+        // We catch the error
+        http_response_code(403);
+        echo json_encode(["message" => "Arguments doesn't match"]);
+    }
 }else{
     // We catch the mistake
     http_response_code(405);

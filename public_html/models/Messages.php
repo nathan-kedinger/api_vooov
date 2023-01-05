@@ -33,15 +33,16 @@ class Messages{
      public function create(){
 
         // Writting SQL request by insering table's name
-        $sql = "INSERT INTO " . $this->table . " t1 INNER JOIN users t2 ON t1.sender = t2.uuid
-        SET t1.sender=:sender, t1.receiver=:receiver, t1.body=:body, 
-        t1.seen=:seen, t1.send_at=:send_at";
+        $sql = "INSERT INTO " . $this->table . " m INNER JOIN users u ON m.sender = u.uuid
+        SET m.uuid=:uuid, m.sender=:sender, m.receiver=:receiver, m.body=:body, 
+        m.seen=:seen, m.send_at=:send_at";
 
         try{
             // Request preparation
             $query = $this->connection->prepare($sql);
 
             // Protection from injections
+            $this->uuid=htmlspecialchars(strip_tags($this->uuid));
             $this->sender=htmlspecialchars(strip_tags($this->sender));
             $this->receiver=htmlspecialchars(strip_tags($this->receiver));
             $this->body=htmlspecialchars(strip_tags($this->body));
@@ -49,6 +50,7 @@ class Messages{
             $this->send_at=htmlspecialchars(strip_tags($this->send_at));
 
             // Adding protected datas
+            $query->bindParam(":uuid", $this->uuid);
             $query->bindParam(":sender", $this->sender);
             $query->bindParam(":receiver", $this->receiver);
             $query->bindParam(":body", $this->body);
@@ -153,14 +155,14 @@ class Messages{
 
         try{
             $query = $this->connection->prepare($sql);
-            
+
             // Protection from injections
             $this->sender=htmlspecialchars(strip_tags($this->sender));
             $this->receiver=htmlspecialchars(strip_tags($this->receiver));
             $this->body=htmlspecialchars(strip_tags($this->body));
             $this->seen=htmlspecialchars(strip_tags($this->seen));
             $this->send_at=htmlspecialchars(strip_tags($this->send_at));
-            
+
             // Adding protected datas
             $query->bindParam(":sender", $this->sender);
             $query->bindParam(":receiver", $this->receiver);
