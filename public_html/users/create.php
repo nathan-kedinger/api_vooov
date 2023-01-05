@@ -23,11 +23,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     // Get back sended informations
     $datas = json_decode(file_get_contents("php://input"));
 
-    if(!empty($datas->name) && !empty($datas->firstname) && !empty($datas->email) && !empty($datas->phone) && !empty($datas->number_of_followers)
+    if(!empty($datas->uuid) && !empty($datas->name) && !empty($datas->firstname) && !empty($datas->email) && !empty($datas->phone) && !empty($datas->number_of_followers)
      && !empty($datas->number_of_moons) && !empty($datas->number_of_friends) && !empty($datas->url_profile_picture) && !empty($datas->description) && !empty($datas->sign_in)
       && !empty($datas->last_connection)){
 
         //here we receive datas, we hydrate our object
+        $user->uuid = $datas->uuid;
         $user->name = $datas->name;
         $user->firstname = $datas->firstname;
         $user->email = $datas->email;
@@ -43,14 +44,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         if($user->create()){
             // Here it worked => code 201
             http_response_code(201);
-            echo json_encode(["massage" => "The add have been done"]);
+            echo json_encode(["message" => "The add have been done"]);
         }else{
             // Here it didn't worked => code 503
             http_response_code(503);
             echo json_encode(["message" => "The add haven't been done"]);
         }
 
-      }
+    }
 }else{
     // We catch the mistake
     http_response_code(405);

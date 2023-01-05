@@ -35,30 +35,35 @@ class Messages{
         // Writting SQL request by insering table's name
         $sql = "INSERT INTO " . $this->table . " t1 INNER JOIN users t2 ON t1.sender = t2.uuid
         SET t1.sender=:sender, t1.receiver=:receiver, t1.body=:body, 
-        t1.seen:=seen, t1.send_at=:send_at";
+        t1.seen=:seen, t1.send_at=:send_at";
 
-        // Request preparation
-        $query = $this->connection->prepare($sql);
+        try{
+            // Request preparation
+            $query = $this->connection->prepare($sql);
 
-        // Protection from injections
-        $this->sender=htmlspecialchars(strip_tags($this->sender));
-        $this->receiver=htmlspecialchars(strip_tags($this->receiver));
-        $this->body=htmlspecialchars(strip_tags($this->body));
-        $this->seen=htmlspecialchars(strip_tags($this->seen));
-        $this->send_at=htmlspecialchars(strip_tags($this->send_at));
+            // Protection from injections
+            $this->sender=htmlspecialchars(strip_tags($this->sender));
+            $this->receiver=htmlspecialchars(strip_tags($this->receiver));
+            $this->body=htmlspecialchars(strip_tags($this->body));
+            $this->seen=htmlspecialchars(strip_tags($this->seen));
+            $this->send_at=htmlspecialchars(strip_tags($this->send_at));
 
-        // Adding protected datas
-        $query->bindParam(":sender", $this->sender);
-        $query->bindParam(":receiver", $this->receiver);
-        $query->bindParam(":body", $this->body);
-        $query->bindParam(":seen", $this->seen);
-        $query->bindParam(":send_at", $this->send_at);
+            // Adding protected datas
+            $query->bindParam(":sender", $this->sender);
+            $query->bindParam(":receiver", $this->receiver);
+            $query->bindParam(":body", $this->body);
+            $query->bindParam(":seen", $this->seen);
+            $query->bindParam(":send_at", $this->send_at);
 
-        // Request's execution
-        if($query->execute()){
-            return true;
+            // Request's execution
+            $query->execute();
+            // If there are no exceptions, return true
+                return true;
+        } catch (PDOException $e) {
+            // If there is an exception, print exception's message and return false
+            echo $e->getMessage();
+            return false;
         }
-        return false;
      }
 
 
@@ -143,30 +148,35 @@ class Messages{
     public function update(){
         
         $sql = "UPDATE " . $this->table . " SET sender=:sender, receiver=:receiver, body=:body, 
-        seen:=seen, send_at=:send_at WHERE uuid = :uuid";
+        seen=:seen, send_at=:send_at WHERE uuid = :uuid";
         
-        $query = $this->connection->prepare($sql);
 
-        // Protection from injections
-        $this->sender=htmlspecialchars(strip_tags($this->sender));
-        $this->receiver=htmlspecialchars(strip_tags($this->receiver));
-        $this->body=htmlspecialchars(strip_tags($this->body));
-        $this->seen=htmlspecialchars(strip_tags($this->seen));
-        $this->send_at=htmlspecialchars(strip_tags($this->send_at));
+        try{
+            $query = $this->connection->prepare($sql);
+            
+            // Protection from injections
+            $this->sender=htmlspecialchars(strip_tags($this->sender));
+            $this->receiver=htmlspecialchars(strip_tags($this->receiver));
+            $this->body=htmlspecialchars(strip_tags($this->body));
+            $this->seen=htmlspecialchars(strip_tags($this->seen));
+            $this->send_at=htmlspecialchars(strip_tags($this->send_at));
+            
+            // Adding protected datas
+            $query->bindParam(":sender", $this->sender);
+            $query->bindParam(":receiver", $this->receiver);
+            $query->bindParam(":body", $this->body);
+            $query->bindParam(":seen", $this->seen);
+            $query->bindParam(":send_at", $this->send_at);
 
-        // Adding protected datas
-        $query->bindParam(":sender", $this->sender);
-        $query->bindParam(":receiver", $this->receiver);
-        $query->bindParam(":body", $this->body);
-        $query->bindParam(":seen", $this->seen);
-        $query->bindParam(":send_at", $this->send_at);
-
-        // Request's execution
-        if($query->execute()){
-            return true;
+            // Request's execution
+            $query->execute();
+            // If there are no exceptions, return true
+                return true;
+        } catch (PDOException $e) {
+            // If there is an exception, print exception's message and return false
+            echo $e->getMessage();
+            return false;
         }
-        return false;        
-
-    }
+     }
     
 }

@@ -38,8 +38,8 @@ class Records{
 
         // Writting SQL request by insering table's name
         $sql = "INSERT INTO " . $this->table . " t1 INNER JOIN users t2 ON t1.artist_uuid = t2.uuid
-        SET t1.artist_uuid=:artist_uuid, t1.title=:title, t1.number_of_play=:number_of_play, 
-        t1.number_of_moons:=number_of_moons, t1.voice_style=:voice_style, 
+        SET t1.uuid=:uuid, t1.artist_uuid=:artist_uuid, t1.title=:title, t1.number_of_play=:number_of_play, 
+        t1.number_of_moons=:number_of_moons, t1.voice_style=:voice_style, 
         t1.kind=:kind, t1.description=:description, t1.created_at=:created_at, t1.updated_at=:updated_at";
         
         
@@ -48,36 +48,43 @@ class Records{
         number_of_play=:number_of_play, number_of_moons:=number_of_moons, voice_style=:voice_style, 
         kind=:kind, description=:description, created_at=:created_at, updated_at=:updated_at";*/
 
-        // Request preparation
-        $query = $this->connection->prepare($sql);
+        try{
+            // Request preparation
+            $query = $this->connection->prepare($sql);
 
-        // Protection from injections
-        $this->artist_uuid=htmlspecialchars(strip_tags($this->artist_uuid));
-        $this->title=htmlspecialchars(strip_tags($this->title));
-        $this->number_of_play=htmlspecialchars(strip_tags($this->number_of_play));
-        $this->number_of_moons=htmlspecialchars(strip_tags($this->number_of_moons));
-        $this->voice_style=htmlspecialchars(strip_tags($this->voice_style));
-        $this->kind=htmlspecialchars(strip_tags($this->kind));
-        $this->description=htmlspecialchars(strip_tags($this->description));
-        $this->created_at=htmlspecialchars(strip_tags($this->created_at));
-        $this->updated_at=htmlspecialchars(strip_tags($this->updated_at));
+            // Protection from injections
+            $this->uuid=htmlspecialchars(strip_tags($this->uuid));
+            $this->artist_uuid=htmlspecialchars(strip_tags($this->artist_uuid));
+            $this->title=htmlspecialchars(strip_tags($this->title));
+            $this->number_of_play=htmlspecialchars(strip_tags($this->number_of_play));
+            $this->number_of_moons=htmlspecialchars(strip_tags($this->number_of_moons));
+            $this->voice_style=htmlspecialchars(strip_tags($this->voice_style));
+            $this->kind=htmlspecialchars(strip_tags($this->kind));
+            $this->description=htmlspecialchars(strip_tags($this->description));
+            $this->created_at=htmlspecialchars(strip_tags($this->created_at));
+            $this->updated_at=htmlspecialchars(strip_tags($this->updated_at));
 
-        // Adding protected datas
-        $query->bindParam(":artist_uuid", $this->artist_uuid);
-        $query->bindParam(":title", $this->title);
-        $query->bindParam(":number_of_play", $this->number_of_play);
-        $query->bindParam(":number_of_moons", $this->number_of_moons);
-        $query->bindParam(":voice_style", $this->voice_style);
-        $query->bindParam(":kind", $this->kind);
-        $query->bindParam(":description", $this->description);
-        $query->bindParam(":created_at", $this->created_at);
-        $query->bindParam(":updated_at", $this->updated_at);
+            // Adding protected datas
+            $query->bindParam(":artist_uuid", $this->uuid);
+            $query->bindParam(":artist_uuid", $this->artist_uuid);
+            $query->bindParam(":title", $this->title);
+            $query->bindParam(":number_of_play", $this->number_of_play);
+            $query->bindParam(":number_of_moons", $this->number_of_moons);
+            $query->bindParam(":voice_style", $this->voice_style);
+            $query->bindParam(":kind", $this->kind);
+            $query->bindParam(":description", $this->description);
+            $query->bindParam(":created_at", $this->created_at);
+            $query->bindParam(":updated_at", $this->updated_at);
 
-        // Request's execution
-        if($query->execute()){
-            return true;
+            // Request's execution
+            $query->execute();
+            // If there are no exceptions, return true
+                return true;
+        } catch (PDOException $e) {
+            // If there is an exception, print exception's message and return false
+            echo $e->getMessage();
+            return false;
         }
-        return false;
      }
 
 
@@ -169,39 +176,45 @@ u.created_at, u.updated_at, u.voice_style, u., u. FROM " . $this->table ." AS u"
     public function update(){
         
         $sql = "UPDATE " . $this->table . " SET artist_uuid=:artist_uuid, title=:title, number_of_play=:number_of_play, 
-        number_of_moons:=number_of_moons, voice_style=:voice_style, kind=:kind,
+        number_of_moons=:number_of_moons, voice_style=:voice_style, kind=:kind,
         description=:description, created_at=:created_at, updated_at=:updated_at WHERE uuid = :uuid";
         
-        $query = $this->connection->prepare($sql);
+        try{
+            $query = $this->connection->prepare($sql);
 
-        // Protection from injections
-        $this->artist_uuid=htmlspecialchars(strip_tags($this->artist_uuid));
-        $this->title=htmlspecialchars(strip_tags($this->title));
-        $this->number_of_play=htmlspecialchars(strip_tags($this->number_of_play));
-        $this->number_of_moons=htmlspecialchars(strip_tags($this->number_of_moons));
-        $this->voice_style=htmlspecialchars(strip_tags($this->voice_style));
-        $this->kind=htmlspecialchars(strip_tags($this->kind));
-        $this->description=htmlspecialchars(strip_tags($this->description));
-        $this->created_at=htmlspecialchars(strip_tags($this->created_at));
-        $this->updated_at=htmlspecialchars(strip_tags($this->updated_at));
+            // Protection from injections
+            $this->uuid=htmlspecialchars(strip_tags($this->uuid));
+            $this->artist_uuid=htmlspecialchars(strip_tags($this->artist_uuid));
+            $this->title=htmlspecialchars(strip_tags($this->title));
+            $this->number_of_play=htmlspecialchars(strip_tags($this->number_of_play));
+            $this->number_of_moons=htmlspecialchars(strip_tags($this->number_of_moons));
+            $this->voice_style=htmlspecialchars(strip_tags($this->voice_style));
+            $this->kind=htmlspecialchars(strip_tags($this->kind));
+            $this->description=htmlspecialchars(strip_tags($this->description));
+            $this->created_at=htmlspecialchars(strip_tags($this->created_at));
+            $this->updated_at=htmlspecialchars(strip_tags($this->updated_at));
 
-        // Adding protected datas
-        $query->bindParam(":artist_uuid", $this->artist_uuid);
-        $query->bindParam(":title", $this->title);
-        $query->bindParam(":number_of_play", $this->number_of_play);
-        $query->bindParam(":number_of_moons", $this->number_of_moons);
-        $query->bindParam(":voice_style", $this->voice_style);
-        $query->bindParam(":kind", $this->kind);
-        $query->bindParam(":description", $this->description);
-        $query->bindParam(":created_at", $this->created_at);
-        $query->bindParam(":updated_at", $this->updated_at);
+            // Adding protected datas
+            $query->bindParam(":uuid", $this->uuid);
+            $query->bindParam(":artist_uuid", $this->artist_uuid);
+            $query->bindParam(":title", $this->title);
+            $query->bindParam(":number_of_play", $this->number_of_play);
+            $query->bindParam(":number_of_moons", $this->number_of_moons);
+            $query->bindParam(":voice_style", $this->voice_style);
+            $query->bindParam(":kind", $this->kind);
+            $query->bindParam(":description", $this->description);
+            $query->bindParam(":created_at", $this->created_at);
+            $query->bindParam(":updated_at", $this->updated_at);
 
-        // Request's execution
-        if($query->execute()){
-            return true;
+            // Request's execution
+            $query->execute();
+            // If there are no exceptions, return true
+                return true;
+        } catch (PDOException $e) {
+            // If there is an exception, print exception's message and return false
+            echo $e->getMessage();
+            return false;
         }
-        return false;        
-
-    }
+     }
     
 }

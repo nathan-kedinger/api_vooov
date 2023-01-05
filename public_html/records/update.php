@@ -42,7 +42,7 @@ if($_SERVER['REQUEST_METHOD'] == 'PUT'){
         if($record->update()){
             // Here it worked => code 200
             http_response_code(200);
-            echo json_encode(["massage" => "The add have been done"]);
+            echo json_encode(["message" => "The add have been done"]);
         }else{
             // Here it didn't worked => code 503
             http_response_code(503);

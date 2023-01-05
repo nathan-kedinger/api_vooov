@@ -23,9 +23,10 @@ if($_SERVER['REQUEST_METHOD'] == 'PUT'){
     // Get back sended informations
     $datas = json_decode(file_get_contents("php://input"));
 
-    if(!empty($datas->sender) && !empty($datas->receiver) && !empty($datas->body) && !empty($datas->seen) && !empty($datas->send_at)){
+    if(!empty($datas->uuid) && !empty($datas->sender) && !empty($datas->receiver) && !empty($datas->body) && !empty($datas->seen) && !empty($datas->send_at)){
 
         //here we receive datas, we hydrate our object
+        $message->uuid = $datas->uuid;
         $message->sender = $datas->sender;
         $message->receiver = $datas->receiver;
         $message->body = $datas->body;
