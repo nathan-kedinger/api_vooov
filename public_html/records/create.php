@@ -23,9 +23,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     // Get back sended informations
     $datas = json_decode(file_get_contents("php://input"));
 
-    if(!empty($datas->uuid) && !empty($datas->artist_uuid) && !empty($datas->title) && !empty($datas->$length) && !empty($datas->$number_of_plays)
-     && !empty($datas->number_of_moons) && !empty($datas->voice_style) && !empty($datas->kind) && !empty($datas->description) && !empty($datas->created_at)
-      && !empty($datas->updated_at)){
+    if(!empty($datas->uuid) && !empty($datas->artist_uuid) && !empty($datas->title) && !empty($datas->length) && !empty($datas->number_of_plays)
+     && !empty($datas->number_of_moons) && !empty($datas->voice_style) && !empty($datas->kind) 
+     && !empty($datas->description) && !empty($datas->created_at) && !empty($datas->updated_at)){
 
         //here we receive datas, we hydrate our object
         $record->uuid = $datas->uuid;
@@ -53,7 +53,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
       }else{
         // We catch the error
         http_response_code(403);
-        echo json_encode(["message" => "Number of arguments doesn't match"]);
+        echo json_encode(["message" => "Arguments doesn't match"]);
     }
 }else{
     // We catch the error

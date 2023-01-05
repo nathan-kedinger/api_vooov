@@ -33,9 +33,8 @@ class Messages{
      public function create(){
 
         // Writting SQL request by insering table's name
-        $sql = "INSERT INTO " . $this->table . " m INNER JOIN users u ON m.sender = u.uuid
-        SET m.uuid=:uuid, m.sender=:sender, m.receiver=:receiver, m.body=:body, 
-        m.seen=:seen, m.send_at=:send_at";
+        $sql = "INSERT INTO " . $this->table . " SET uuid=:uuid, sender=:sender, 
+        receiver=:receiver, body=:body, seen=:seen, send_at=:send_at";
 
         try{
             // Request preparation
@@ -149,7 +148,7 @@ class Messages{
      */
     public function update(){
         
-        $sql = "UPDATE " . $this->table . " SET sender=:sender, receiver=:receiver, body=:body, 
+        $sql = "UPDATE " . $this->table . " SET uuid=:uuid, sender=:sender, receiver=:receiver, body=:body, 
         seen=:seen, send_at=:send_at WHERE uuid = :uuid";
         
 
@@ -157,6 +156,7 @@ class Messages{
             $query = $this->connection->prepare($sql);
 
             // Protection from injections
+            $this->uuid=htmlspecialchars(strip_tags($this->uuid));
             $this->sender=htmlspecialchars(strip_tags($this->sender));
             $this->receiver=htmlspecialchars(strip_tags($this->receiver));
             $this->body=htmlspecialchars(strip_tags($this->body));
@@ -164,6 +164,7 @@ class Messages{
             $this->send_at=htmlspecialchars(strip_tags($this->send_at));
 
             // Adding protected datas
+            $query->bindParam(":uuid", $this->uuid);
             $query->bindParam(":sender", $this->sender);
             $query->bindParam(":receiver", $this->receiver);
             $query->bindParam(":body", $this->body);

@@ -23,7 +23,8 @@ if($_SERVER['REQUEST_METHOD'] == 'PUT'){
     // Get back sended informations
     $datas = json_decode(file_get_contents("php://input"));
 
-    if(!empty($datas->uuid) && !empty($datas->sender) && !empty($datas->receiver) && !empty($datas->body) && !empty($datas->seen) && !empty($datas->send_at)){
+    if(isset($datas->uuid) && isset($datas->sender) && isset($datas->receiver) 
+    && isset($datas->body) && isset($datas->seen) && isset($datas->send_at)){
 
         //here we receive datas, we hydrate our object
         $message->uuid = $datas->uuid;

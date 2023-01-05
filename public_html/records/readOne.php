@@ -49,7 +49,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 
     }else{
         http_response_code(404);
-        echo json_encode(array("message" => "This record doesn't exists."));
+        echo json_encode(array("message" => "We couldn't get the record"));
     }
     
 }else{

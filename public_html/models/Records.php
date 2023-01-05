@@ -136,7 +136,7 @@ u.created_at, u.updated_at, u.voice_style, u., u. FROM " . $this->table ." AS u"
         $this->artist_uuid = $row['uuid'];
         $this->artist_uuid = $row['artist_uuid'];
         $this->title = $row['title'];
-        $this->title = $row['length'];
+        $this->length = $row['length'];
         $this->number_of_plays = $row['number_of_plays'];
         $this->number_of_moons = $row['number_of_moons'];
         $this->voice_style = $row['voice_style'];
