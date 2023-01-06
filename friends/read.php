@@ -30,7 +30,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
     if($stmt->rowCount() > 0){
         //initialisation of an associative tab
         $tabFriend = [];
-        $tabFriend['friend'] = [];
+        $tabFriend['friends'] = [];
 
         while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             extract($row);
@@ -44,7 +44,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
                 "send_at" => $send_at ,
             ];
 
-            $tabFriend['friend'][] = $friend;
+            $tabFriend['friends'][] = $friend;
         }
 
         http_response_code(200);
