@@ -11,14 +11,17 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 if($_SERVER['REQUEST_METHOD'] == 'DELETE'){
     // Including files for config and data access
     include_once '../../Database.php';
-    include_once '../models/Messages.php';
+    include_once '../models/CRUD.php';
 
     // DDB instanciation
     $database = new Database();
     $db = $database->getConnection();
+    $table = "messages";
+
+    $sql = "DELETE FROM " . $table ." WHERE uuid = ?";
 
     // Messages instanciation
-    $message = new Messages($db);
+    $message = new CRUD($db);
 
     // Get back sended informations
     $datas = json_decode(file_get_contents("php://input"));
@@ -27,7 +30,7 @@ if($_SERVER['REQUEST_METHOD'] == 'DELETE'){
 
         $message->uuid = $datas->uuid;
 
-        if($message->delete()){
+        if($message->delete($sql)){
 
             http_response_code(200);
 

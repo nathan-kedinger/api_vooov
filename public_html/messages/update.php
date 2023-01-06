@@ -8,48 +8,52 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 
 // Verification that used method is correct
-if($_SERVER['REQUEST_METHOD'] == 'PUT'){
+if($_SERVER['REQUEST_METHOD'] == 'PUT'){ // Change with good method
     // Including files for config and data access
     include_once '../../Database.php';
-    include_once '../models/Messages.php';
+    include_once '../models/CRUD.php';
+    include_once '../tabs/tabs.php';
 
     // DDB instanciation
     $database = new Database();
     $db = $database->getConnection();
+    $table = "messages"; // Change with the good BDD table name
 
-    // Messages instanciation
-    $message = new Messages($db);
+
+    // Datas
+    $arguments = $tabMessages;// Replace with the good tab
+
+    // SQL request
+    $sql = "UPDATE " . $table . " SET ". implode(', ', array_map(function($argument) 
+    { return $argument . '=:' . $argument; }, $arguments)) . " WHERE uuid=:uuid"; 
+
+    // Records instanciation
+    $message = new CRUD($db);
 
     // Get back sended informations
     $datas = json_decode(file_get_contents("php://input"));
 
-    if(isset($datas->uuid) && isset($datas->sender) && isset($datas->receiver) 
-    && isset($datas->body) && isset($datas->seen) && isset($datas->send_at)){
-
-        //here we receive datas, we hydrate our object
-        $message->uuid = $datas->uuid;
-        $message->sender = $datas->sender;
-        $message->receiver = $datas->receiver;
-        $message->body = $datas->body;
-        $message->seen = $datas->seen;
-        $message->send_at = $datas->send_at;
-
-        if($message->update()){
-            // Here it worked => code 200
-            http_response_code(200);
-            echo json_encode(["message" => "The add have been done"]);
+    foreach($arguments as $argument){
+        if(isset($datas->$argument)){
+            //here we receive datas, we hydrate our object
+            $message->$argument = $datas->$argument;
         }else{
-            // Here it didn't worked => code 503
-            http_response_code(503);
-            echo json_encode(["message" => "The add haven't been done"]);
+            // We catch the mistake
+            http_response_code(400);
+            echo json_encode(["message" => "Arguments doesn't match"]);
         }
-      }else{
-        // We catch the error
-        http_response_code(403);
-        echo json_encode(["message" => "Number of arguments doesn't match"]);
+    }
+    if($message->update($arguments, $sql)){
+        // Here it worked => code 201
+        http_response_code(201);
+        echo json_encode(["message" => "The change have been done"]);
+    }else{
+        // Here it didn't worked => code 503
+        http_response_code(503);
+        echo json_encode(["message" => "The change haven't been done"]);
     }
 }else{
-    // We catch the error
+    // We catch the mistake
     http_response_code(405);
     echo json_encode(["message" => "This method isn't authorised"]);
 }

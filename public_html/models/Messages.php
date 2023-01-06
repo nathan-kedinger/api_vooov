@@ -124,7 +124,7 @@ class Messages{
      */
     public function delete(){
         
-        $sql = "DELETE FROM " . $this->table ." WHERE uuid = ?";
+        $sql = "DELETE FROM " . $this->table . " WHERE uuid = ?";
 
         $query = $this->connection->prepare($sql);
 

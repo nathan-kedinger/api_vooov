@@ -10,22 +10,25 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
     // Including files for config and data access
     include_once '../../Database.php';
-    include_once '../models/Messages.php';
+    include_once '../models/CRUD.php';//change with the
 
     // DDB instanciation
     $database = new Database();
     $db = $database->getConnection();
+    $table = "messages";
 
     // Message instanciation
-    $message = new Messages($db);
+    $message = new CRUD($db);
+
+    // SQL request
+    $sql = "SELECT * FROM " . $table; // It is possible to add a join after that
 
     // Get datas
-    $stmt = $message->read();
+    $stmt = $message->read($sql);
 
-    // Verifying that we have at least one user
+    // Verifying that we have at least one row in database
     if($stmt->rowCount() > 0){
         //initialisation of an associative tab
-
         $tabmessage = [];
         $tabmessage['message'] = [];
 
@@ -48,10 +51,12 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 
         echo json_encode($tabmessage);
 
+    }else{
+        http_response_code(400);
+        echo json_encode(["message" => "There is no row in that table"]);
     }
     
 }else{
     http_response_code(405);
     echo json_encode(["message" => "This method isn't authorised"]);
-
 }

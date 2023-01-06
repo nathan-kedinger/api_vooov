@@ -10,24 +10,31 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
     // Including files for config and data access
     include_once '../../Database.php';
-    include_once '../models/Messages.php';
+    include_once '../models/CRUD.php';
+    include_once '../tabs/tabs.php';
 
     // DDB instanciation
     $database = new Database();
     $db = $database->getConnection();
+    $table = "messages"; // Change with the good BDD table name
+
+    $arguments = $tabMessages;
+
+    $sql = "SELECT ". implode(', ', array_map(function($argument) 
+    { return $argument; }, $arguments)) . " FROM " . $table ."
+    WHERE uuid = ? LIMIT 0,1";
 
     // Messages instanciation
-    $message = new Messages($db);
+    $message = new CRUD($db);
 
     // Get datas
     $datas = json_decode(file_get_contents("php://input"));
-
 
     // Verifying that we have at least one message
     if(!empty($datas->uuid)){
         $message->uuid = $datas->uuid;
 
-        $message->readOne();
+        $message->readOne($arguments, $sql);
         
             $message = [
                 "uuid" => $message->uuid,
