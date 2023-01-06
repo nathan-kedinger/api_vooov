@@ -16,43 +16,42 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
     // DDB instanciation
     $database = new Database();
     $db = $database->getConnection();
-    $table = "messages"; // Change with the good BDD table name
+    $table = "friends"; // Change with the good BDD table name
 
-    $arguments = $tabMessages;// Replace with the good tab
+    $arguments = $tabFriends;// Replace with the good tab
 
     $sql = "SELECT ". implode(', ', array_map(function($argument) 
     { return $argument; }, $arguments)) . " FROM " . $table ."
     WHERE uuid = ? LIMIT 0,1";
 
-    // Messages instanciation
-    $message = new CRUD($db);
+    // Friends instanciation
+    $friend = new CRUD($db);
 
     // Get datas
     $datas = json_decode(file_get_contents("php://input"));
 
-    // Verifying that we have at least one message
+    // Verifying that we have at least one friend
     if(!empty($datas->uuid)){
-        $message->uuid = $datas->uuid;
+        $friend->uuid = $datas->uuid;
 
-        $message->readOne($arguments, $sql);
+        $friend->readOne($arguments, $sql);
         
-            $message = [
-                "uuid" => $message->uuid,
-                "convezrsation_uuid" => $message->conversation_uuid,
-                "sender" => $message->sender,
-                "receiver" => $message->receiver,
-                "body" => $message->body,
-                "seen" => $message->seen,
-                "send_at" => $message->send_at,
+            $friend = [
+                "uuid" => $friend->uuid,
+                "sender" => $friend->sender ,
+                "receiver" => $friend->receiver ,
+                "body" => $friend->body ,
+                "seen" => $friend->seen ,
+                "send_at" => $friend->send_at ,
             ];
 
         http_response_code(200);
 
-        echo json_encode($message);
+        echo json_encode($friend);
 
     }else{
         http_response_code(404);
-        echo json_encode(array("message" => "This message doesn't exists."));
+        echo json_encode(array("message" => "This friend doesn't exists."));
     }
     
 }else{

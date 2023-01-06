@@ -16,43 +16,42 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
     // DDB instanciation
     $database = new Database();
     $db = $database->getConnection();
-    $table = "messages"; // Change with the good BDD table name
+    $table = "conversations"; // Change with the good BDD table name
 
-    $arguments = $tabMessages;// Replace with the good tab
+    $arguments = $tabConversations;// Replace with the good tab
 
     $sql = "SELECT ". implode(', ', array_map(function($argument) 
     { return $argument; }, $arguments)) . " FROM " . $table ."
     WHERE uuid = ? LIMIT 0,1";
 
-    // Messages instanciation
-    $message = new CRUD($db);
+    // conversations instanciation
+    $conversation = new CRUD($db);
 
     // Get datas
     $datas = json_decode(file_get_contents("php://input"));
 
-    // Verifying that we have at least one message
+    // Verifying that we have at least one conversation
     if(!empty($datas->uuid)){
-        $message->uuid = $datas->uuid;
+        $conversation->uuid = $datas->uuid;
 
-        $message->readOne($arguments, $sql);
+        $conversation->readOne($arguments, $sql);
         
-            $message = [
-                "uuid" => $message->uuid,
-                "convezrsation_uuid" => $message->conversation_uuid,
-                "sender" => $message->sender,
-                "receiver" => $message->receiver,
-                "body" => $message->body,
-                "seen" => $message->seen,
-                "send_at" => $message->send_at,
+            $conversation = [
+                "uuid" => $conversation->uuid,
+                "sender" => $conversation->sender ,
+                "receiver" => $conversation->receiver ,
+                "body" => $conversation->body ,
+                "seen" => $conversation->seen ,
+                "send_at" => $conversation->send_at ,
             ];
 
         http_response_code(200);
 
-        echo json_encode($message);
+        echo json_encode($conversation);
 
     }else{
         http_response_code(404);
-        echo json_encode(array("message" => "This message doesn't exists."));
+        echo json_encode(array("message" => "This conversation doesn't exists."));
     }
     
 }else{
