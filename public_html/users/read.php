@@ -10,22 +10,25 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
     // Including files for config and data access
     include_once '../../Database.php';
-    include_once '../models/Users.php';
+    include_once '../models/CRUD.php';//change with the
 
     // DDB instanciation
     $database = new Database();
     $db = $database->getConnection();
+    $table = "users"; // Change with the good BDD table name
 
-    // Users instanciation
-    $users = new Users($db);
+    // Message instanciation
+    $user = new CRUD($db);
+
+    // SQL request
+    $sql = "SELECT * FROM " . $table; // It is possible to add a join after that
 
     // Get datas
-    $stmt = $users->read();
+    $stmt = $user->read($sql);
 
     // Verifying that we have at least one user
     if($stmt->rowCount() > 0){
         //initialisation of an associative tab
-
         $tabUsers = [];
         $tabUsers['users'] = [];
 

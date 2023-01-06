@@ -16,7 +16,7 @@ if($_SERVER['REQUEST_METHOD'] == 'DELETE'){
     // DDB instanciation
     $database = new Database();
     $db = $database->getConnection();
-    $table = "messages";
+    $table = "messages"; // Change with the good BDD table name
 
     $sql = "DELETE FROM " . $table ." WHERE uuid = ?";
 

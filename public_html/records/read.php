@@ -10,24 +10,27 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
     // Including files for config and data access
     include_once '../../Database.php';
-    include_once '../models/Records.php';
+    include_once '../models/CRUD.php';//change with the
 
     // DDB instanciation
     $database = new Database();
     $db = $database->getConnection();
+    $table = "audio_records";
 
-    // Records instanciation
-    $records = new Records($db);
+    // Message instanciation
+    $record = new CRUD($db);
+
+    // SQL request
+    $sql = "SELECT * FROM " . $table; // It is possible to add a join after that
 
     // Get datas
-    $stmt = $records->read();
+    $stmt = $record->read($sql);
 
     // Verifying that we have at least one user
     if($stmt->rowCount() > 0){
         //initialisation of an associative tab
-
         $tabrecords = [];
-        $tabrecords['records'] = [];
+        $tabrecords['audio_records'] = [];
 
         while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             extract($row);
@@ -46,7 +49,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
                 "updated_at" => $updated_at,
             ];
 
-            $tabrecords['records'][] = $record;
+            $tabrecords['audio_records'][] = $record;
         }
 
         http_response_code(200);

@@ -10,14 +10,22 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
     // Including files for config and data access
     include_once '../../Database.php';
-    include_once '../models/Records.php';
+    include_once '../models/CRUD.php';
+    include_once '../tabs/tabs.php';
 
     // DDB instanciation
     $database = new Database();
     $db = $database->getConnection();
+    $table = "audio_records"; // Change with the good BDD table name
 
-    // records instanciation
-    $record = new Records($db);
+    $arguments = $tabRecords;// Replace with the good tab
+
+    $sql = "SELECT ". implode(', ', array_map(function($argument) 
+    { return $argument; }, $arguments)) . " FROM " . $table ."
+    WHERE uuid = ? LIMIT 0,1";
+
+    // Messages instanciation
+    $record = new CRUD($db);
 
     // Get datas
     $datas = json_decode(file_get_contents("php://input"));
@@ -27,7 +35,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
     if(!empty($datas->uuid)){
         $record->uuid = $datas->uuid;
 
-        $record->readOne();
+        $record->readOne($arguments, $sql);
         
             $record = [
                 "uuid" => $record->uuid,

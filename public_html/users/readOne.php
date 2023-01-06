@@ -10,15 +10,22 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
     // Including files for config and data access
     include_once '../../Database.php';
-    include_once '../models/Users.php';
+    include_once '../models/CRUD.php';
+    include_once '../tabs/tabs.php';
 
     // DDB instanciation
     $database = new Database();
     $db = $database->getConnection();
+    $table = "users"; // Change with the good BDD table name
 
-    // Users instanciation
-    $user = new Users($db);
+    $arguments = $tabUsers;// Replace with the good tab
 
+    $sql = "SELECT ". implode(', ', array_map(function($argument) 
+    { return $argument; }, $arguments)) . " FROM " . $table ."
+    WHERE uuid = ? LIMIT 0,1";
+
+    // Messages instanciation
+    $user = new CRUD($db);
     // Get datas
     $datas = json_decode(file_get_contents("php://input"));
 
@@ -27,7 +34,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
     if(!empty($datas->uuid)){
         $user->uuid = $datas->uuid;
 
-        $user->readOne();
+        $user->readOne($arguments, $sql);
         
             $user = [
                 "uuid" => $user->uuid,

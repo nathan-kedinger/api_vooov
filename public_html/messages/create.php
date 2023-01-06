@@ -6,7 +6,6 @@ header("Access-Control-Allow-Methods: POST"); // Change with good method
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-
 // Verification that used method is correct
 if($_SERVER['REQUEST_METHOD'] == 'POST'){ // Change with good method
     // Including files for config and data access
@@ -18,7 +17,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){ // Change with good method
     $database = new Database();
     $db = $database->getConnection();
     $table = "messages"; // Change with the good BDD table name
-
 
     // Datas
     $arguments = $tabMessages;// Replace with the good tab

@@ -18,7 +18,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
     $db = $database->getConnection();
     $table = "messages"; // Change with the good BDD table name
 
-    $arguments = $tabMessages;
+    $arguments = $tabMessages;// Replace with the good tab
 
     $sql = "SELECT ". implode(', ', array_map(function($argument) 
     { return $argument; }, $arguments)) . " FROM " . $table ."

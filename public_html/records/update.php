@@ -8,52 +8,49 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 
 // Verification that used method is correct
-if($_SERVER['REQUEST_METHOD'] == 'PUT'){
+if($_SERVER['REQUEST_METHOD'] == 'PUT'){ // Change with good method
     // Including files for config and data access
     include_once '../../Database.php';
-    include_once '../models/Records.php';
+    include_once '../models/CRUD.php';
+    include_once '../tabs/tabs.php';
 
     // DDB instanciation
     $database = new Database();
     $db = $database->getConnection();
+    $table = "audio_records"; // Change with the good BDD table name
 
-    // records instanciation
-    $record = new Records($db);
+
+    // Datas
+    $arguments = $tabRecords;// Replace with the good tab
+
+    // SQL request
+    $sql = "UPDATE " . $table . " SET ". implode(', ', array_map(function($argument) 
+    { return $argument . '=:' . $argument; }, $arguments)) . " WHERE uuid=:uuid"; 
+
+    // Records instanciation
+    $records = new CRUD($db);
 
     // Get back sended informations
     $datas = json_decode(file_get_contents("php://input"));
 
-    if(!empty($datas->uuid) && !empty($datas->artist_uuid) && !empty($datas->title) && !empty($datas->length) && !empty($datas->number_of_plays)
-     && !empty($datas->number_of_moons) && !empty($datas->voice_style) && !empty($datas->kind) 
-     && !empty($datas->description) && !empty($datas->created_at) && !empty($datas->updated_at)){
-
-        //here we receive datas, we hydrate our object
-        $record->uuid = $datas->uuid;
-        $record->artist_uuid = $datas->artist_uuid;
-        $record->title = $datas->title;
-        $record->length = $datas->length;
-        $record->number_of_plays = $datas->number_of_plays;
-        $record->number_of_moons = $datas->number_of_moons;
-        $record->voice_style = $datas->voice_style;
-        $record->kind = $datas->kind;
-        $record->description = $datas->description;
-        $record->created_at = $datas->created_at;
-        $record->updated_at = $datas->updated_at;
-
-        if($record->update()){
-            // Here it worked => code 200
-            http_response_code(200);
-            echo json_encode(["message" => "The add have been done"]);
+    foreach($arguments as $argument){
+        if(isset($datas->$argument)){
+            //here we receive datas, we hydrate our object
+            $records->$argument = $datas->$argument;
         }else{
-            // Here it didn't worked => code 503
-            http_response_code(503);
-            echo json_encode(["message" => "The add haven't been done"]);
+            // We catch the mistake
+            http_response_code(400);
+            echo json_encode(["message" => "Arguments doesn't match"]);
         }
-
-      }else{
-        // We catch the error
-        http_response_code(403);
-        echo json_encode(["message" => "Arguments doesn't match"]);
+    }
+    if($records->update($arguments, $sql)){
+        // Here it worked => code 201
+        http_response_code(201);
+        echo json_encode(["message" => "The change have been done"]);
+    }else{
+        // Here it didn't worked => code 503
+        http_response_code(503);
+        echo json_encode(["message" => "The change haven't been done"]);
     }
 }else{
     // We catch the mistake
