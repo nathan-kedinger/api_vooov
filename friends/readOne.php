@@ -11,4 +11,3 @@
     WHERE uuid = ? LIMIT 0,1";
 
     include_once '../generic_cruds/generic_readOne.php';
-    

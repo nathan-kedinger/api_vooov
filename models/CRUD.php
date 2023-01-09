@@ -76,7 +76,7 @@ class CRUD{
      */
     public function readOne($arguments, $sql){
 
-        $query =$this->connection->prepare($sql);
+        $query = $this->connection->prepare($sql);
 
         $query->bindParam(1, $this->uuid);
 
