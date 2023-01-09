@@ -37,11 +37,11 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 
             $conversation = [
                 "uuid" => $uuid,
-                "sender" => $sender ,
-                "receiver" => $receiver ,
-                "body" => $body ,
-                "seen" => $seen ,
-                "send_at" => $send_at ,
+                "sender" => $sender,
+                "receiver" => $receiver,
+                "title" => $body,
+                "created_at" => $created_at,
+                "updated_at" => $updated_at,
             ];
 
             $tabmessage['conversation'][] = $conversation;

@@ -37,11 +37,8 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 
             $friend = [
                 "uuid" => $uuid,
-                "sender" => $sender ,
-                "receiver" => $receiver ,
-                "body" => $body ,
-                "seen" => $seen ,
-                "send_at" => $send_at ,
+                "user1" => $user1 ,
+                "user2" => $user2 ,
             ];
 
             $tabFriend['friends'][] = $friend;
@@ -49,7 +46,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 
         http_response_code(200);
 
-        echo json_encode($tabfriend);
+        echo json_encode($tabFriend);
 
     }else{
         http_response_code(400);

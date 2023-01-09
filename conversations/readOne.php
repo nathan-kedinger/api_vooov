@@ -38,11 +38,11 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
         
             $conversation = [
                 "uuid" => $conversation->uuid,
-                "sender" => $conversation->sender ,
-                "receiver" => $conversation->receiver ,
-                "body" => $conversation->body ,
-                "seen" => $conversation->seen ,
-                "send_at" => $conversation->send_at ,
+                "sender" => $conversation->sender,
+                "receiver" => $conversation->receiver,
+                "title" => $conversation->title,
+                "created_at" => $conversation->created_at,
+                "updated_at" => $conversation->updated_at,
             ];
 
         http_response_code(200);

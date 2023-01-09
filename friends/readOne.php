@@ -38,11 +38,8 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
         
             $friend = [
                 "uuid" => $friend->uuid,
-                "sender" => $friend->sender ,
-                "receiver" => $friend->receiver ,
-                "body" => $friend->body ,
-                "seen" => $friend->seen ,
-                "send_at" => $friend->send_at ,
+                "user1" => $friend->user1 ,
+                "user2" => $friend->user2 ,
             ];
 
         http_response_code(200);
