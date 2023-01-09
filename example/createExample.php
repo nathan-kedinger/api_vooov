@@ -1,9 +1,18 @@
 <?php
 // Headers
+// Access from any site or device
 header("Access-Control-Allow-Origin: *");
+
+// Data format
 header("Content-Type: application/json; charset=UTF-8");
+
+// Authorised method 
 header("Access-Control-Allow-Methods: POST");
+
+// Request lifetime
 header("Access-Control-Max-Age: 3600");
+
+// Authorised headers
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 
