@@ -3,6 +3,7 @@
 
     $table = "friends"; // Change with the good BDD table name
 
+    // Datas
     $arguments = $tabFriends;// Replace with the good tab
 
     // SQL request

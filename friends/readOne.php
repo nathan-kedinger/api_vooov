@@ -1,7 +1,7 @@
 <?php
-
     include_once '../tabs/tabs.php';
 
+    // Expected table
     $table = "friends"; // Change with the good BDD table name
 
     $arguments = $tabFriends;// Replace with the good tab
