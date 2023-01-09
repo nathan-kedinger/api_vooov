@@ -28,16 +28,14 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 
         $friend->readOne($arguments, $sql);
         
-        $friend = [];
+        $ami = [];
         foreach ($arguments as $argument){
-
-            $friend[$argument];
+            $ami[$argument] = $argument;
         }
-
 
         http_response_code(200);
 
-        echo json_encode($friend);
+        echo json_encode($ami);
 
     }else{
         http_response_code(404);
