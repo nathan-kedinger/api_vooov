@@ -31,7 +31,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
         $friend = [];
         foreach ($arguments as $argument){
 
-            $friend [] = [$argument => $argument];
+            $friend[$argument];
         }
 
 
