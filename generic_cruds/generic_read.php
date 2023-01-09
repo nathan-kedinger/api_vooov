@@ -10,8 +10,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
     // Including files for config and data access
     include_once '../../Database.php';
-    include_once '../models/CRUD.php';//change with the
-    include_once '../tabs/tabs.php';
+    include_once '../models/CRUD.php';
 
     // DDB instanciation
     $database = new Database();
@@ -20,16 +19,15 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
     // crudObject instanciation
     $crudObject = new CRUD($db);
 
-
-
     // Get datas
     $stmt = $crudObject->read($sql);
 
     // Verifying that we have at least one row in database
     if($stmt->rowCount() > 0){
         //initialisation of an associative tab
-        $tabFriend = [];
-        $tabFriend[$table] = [];
+        $showedDatas = [];
+        // $table = DB table
+        $showedDatas[$table] = [];
 
         while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             extract($row);
@@ -39,12 +37,12 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
                         $friend[$argument] = $row[$argument];
                     }
         
-            $tabFriend[$table][] = $friend;
+            $showedDatas[$table][] = $friend;
         }
 
         http_response_code(200);
 
-        echo json_encode($tabFriend);
+        echo json_encode($showedDatas);
 
     }else{
         http_response_code(400);
