@@ -28,10 +28,11 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 
         $friend->readOne($arguments, $sql);
         
+        $friend = [];
         foreach ($arguments as $argument){
 
-        }
             $friend [] = [$argument => $argument];
+        }
 
 
         http_response_code(200);
