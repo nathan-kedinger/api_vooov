@@ -1,4 +1,5 @@
 <?php
+    include_once '../tabs/tabs.php';
 
     // Expected table
     $table = "friends";
