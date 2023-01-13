@@ -25,19 +25,18 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
     // Verifying that we have at least one row in database
     if($stmt->rowCount() > 0){
         //initialisation of an associative tab
-        $showedDatas = [];
+        $showedDatas = array();
         // $table = DB table
-        $showedDatas[$table] = [];
+        $friend = array();
 
         while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             extract($row);
         
-                $friend = [];
                     foreach($arguments as $argument){
                         $friend[$argument] = $row[$argument];
                     }
         
-            $showedDatas[$table][] = $friend;
+            $showedDatas[] = $friend;
         }
 
         http_response_code(200);

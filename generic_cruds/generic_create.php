@@ -1,17 +1,16 @@
 <?php
-define('ALLOWED_METHOD', 'POST'); // Change with good method
-
 // Headers
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: ALLOWED_METHOD"); 
+header("Access-Control-Allow-Methods: POST"); 
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 try{
     // Verification that used method is correct
-    if($_SERVER['REQUEST_METHOD'] == 'ALLOWED_METHOD'){ // Change with good method
-        throw new Exception("Invalid request method. Only " . ALLOWED_METHOD . " is allowed", 405);
+    if($_SERVER['REQUEST_METHOD'] != 'POST'){ // Change with good method
+        throw new Exception("Invalid request method. Only POST is allowed", 405);
+    }
         // Including files for config and data access
         include_once '../../Database.php';
         include_once '../models/CRUD.php';
@@ -45,7 +44,6 @@ try{
             http_response_code(503);
             echo json_encode(["message" => "The add haven't been done"]);
         }
-    }
 } catch (Exception $e){
     http_response_code($e->getCode());
     echo json_encode(["Message" => $e->getMessage()]);
