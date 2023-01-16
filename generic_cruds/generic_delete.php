@@ -6,43 +6,47 @@ header("Access-Control-Allow-Methods: DELETE");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-
-// Verification that used method is correct
-if($_SERVER['REQUEST_METHOD'] == 'DELETE'){
-    // Including files for config and data access
-    include_once '../../Database.php';
-    include_once '../models/CRUD.php';
-
-    // DDB instanciation
-    $database = new Database();
-    $db = $database->getConnection();
-
-    // crudObjects instanciation
-    $crudObject = new CRUD($db);
-
-    // Get back sended informations
-    $datas = json_decode(file_get_contents("php://input"));
-
-    if(!empty($datas->uuid)){
-
-        $crudObject->uuid = $datas->uuid;
-
-        if($crudObject->delete($sql)){
-
-            http_response_code(200);
-
-            echo json_encode(["message" => "The data have been deleted"]);
-
-        }else{
-            http_response_code(503);
-            echo json_encode(["message" => "The data haven't been deleted"]);
-        }
-    }else{
-        // We catch the error
-        http_response_code(403);
-        echo json_encode(["message" => "Arguments doesn't match"]);
+try{
+    // Verification that used method is correct
+    if($_SERVER['REQUEST_METHOD'] != 'DELETE'){
+        throw new Exception("Invalid request method. Only POST is allowed", 405);
     }
-}else{
-    http_response_code(405);
-    echo json_encode(["message" => "This method isn't authorised"]);
+        // Including files for config and data access
+        include_once '../../Database.php';
+        include_once '../models/CRUD.php';
+    
+        // DDB instanciation
+        $database = new Database();
+        $db = $database->getConnection();
+    
+        // crudObjects instanciation
+        $crudObject = new CRUD($db);
+    
+        // Get back sended informations
+        $datas = json_decode(file_get_contents("php://input"));
+    
+        if(!empty($datas->uuid)){
+        
+            $crudObject->uuid = $datas->uuid;
+        
+            if($crudObject->delete($sql)){
+            
+                http_response_code(200);
+            
+                echo json_encode(["message" => "The data have been deleted"]);
+            
+            }else{
+                http_response_code(503);
+                echo json_encode(["message" => "The data haven't been deleted"]);
+            }
+        }else{
+            // We catch the error
+            http_response_code(403);
+            echo json_encode(["message" => "Arguments doesn't match"]);
+        }
+
+} catch (Exception $e){
+    http_response_code($e->getCode());
+    echo json_encode(["Message" => $e->getMessage()]);
+    error_log($e->getMessage());
 }

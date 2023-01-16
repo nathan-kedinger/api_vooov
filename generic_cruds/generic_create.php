@@ -44,6 +44,7 @@ try{
             http_response_code(503);
             echo json_encode(["message" => "The add haven't been done"]);
         }
+        
 } catch (Exception $e){
     http_response_code($e->getCode());
     echo json_encode(["Message" => $e->getMessage()]);
