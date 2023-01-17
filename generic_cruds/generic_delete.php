@@ -22,12 +22,12 @@ try{
         // crudObjects instanciation
         $crudObject = new CRUD($db);
     
-        // Get back sended informations
-        $datas = json_decode(file_get_contents("php://input"));
+        // Get uuid from url
+        $uuid = $_GET['uuid'];
     
-        if(!empty($datas->uuid)){
+        if(!empty($uuid)){
         
-            $crudObject->uuid = $datas->uuid;
+            $crudObject->uuid = $uuid;
         
             if($crudObject->delete($sql)){
             

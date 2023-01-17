@@ -22,12 +22,13 @@ try{
         // crudObject$crudObjects instanciation
         $crudObject = new CRUD($db);
 
-        // Get datas
-        $datas = json_decode(file_get_contents("php://input"));
+        // Get uuid from url
+        $uuid = $_GET['uuid'];
 
-        // Verifying that we have at least one crudObject$crudObject
-        if(!empty($datas->uuid)){
-            $crudObject->uuid = $datas->uuid;
+        // Verifying that we have at least one crudObject
+        if (!empty($uuid)) {
+            
+        $crudObject->uuid = $uuid;
 
             $crudObject->readOne($arguments, $sql);
 
