@@ -1,4 +1,7 @@
 <?php
+/**
+ * CRUD class for handling database operations
+ */
 class CRUD{
     // Connection
     private $connection;
@@ -21,7 +24,9 @@ class CRUD{
      /**
       * Creating  
       *
-      *@return void
+      *@param array $arguments the columns to insert in the table
+      *@param string $sql the sql query to prepare
+      *@return boolean return true if the insertion is successfull, false otherwise
       */
      public function create($arguments, $sql){
 
@@ -54,7 +59,8 @@ class CRUD{
     /**
      * Reading users
      *
-     *@return $query
+     *@param string $sql the sql query to prepare
+     *@return object return the query object
      */
     public function read($sql){
 
@@ -71,8 +77,9 @@ class CRUD{
     /**
      * Reading one user
      * 
+     * @param array $arguments the columns to select in the table
+     * @param string $sql the sql query to prepare
      * @return void
-     * 
      */
     public function readOne($arguments, $sql){
 
@@ -92,8 +99,10 @@ class CRUD{
 
     /**
      * Update user
-     * 
-     * @return void
+     *      
+     * @param array $arguments the columns to select in the table
+     * @param string $sql the sql query to prepare
+     * @return boolean
      * 
      */
     public function update($arguments, $sql){
@@ -127,7 +136,8 @@ class CRUD{
     /**
      * Delete user
      * 
-     * @return void
+     * @param string $sql the sql query to prepare
+     * @return boolean
      * 
      */
     public function delete($sql){
