@@ -7,6 +7,11 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 try{
+    /**
+    * Script to handle a DELETE request
+    *
+    * @throws InvalidArgumentException if the request method is not DELETE
+    */
     // Verification that used method is correct
     if($_SERVER['REQUEST_METHOD'] != 'DELETE'){
         throw new Exception("Invalid request method. Only POST is allowed", 405);

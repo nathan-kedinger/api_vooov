@@ -8,6 +8,12 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 
 try{
+    /**
+    * Script to handle a PUT request
+    *
+    * @throws InvalidArgumentException if the request method is not PUT or if the input data is not valid JSON
+    */
+    // Verification that used method is correct
     // Verification that used method is correct
     if($_SERVER['REQUEST_METHOD'] != 'PUT'){ // Change with good method
         throw new Exception("Invalid request method. Only POST is allowed", 405);

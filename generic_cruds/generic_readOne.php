@@ -7,6 +7,11 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 try{
+    /**
+    * Script to handle a GET request for one data
+    *
+    * @throws InvalidArgumentException if the request method is not GET
+    */
     // Verification that used method is correct
     if($_SERVER['REQUEST_METHOD'] != 'GET'){
         throw new Exception("Invalid request method. Only GET is allowed", 405);
