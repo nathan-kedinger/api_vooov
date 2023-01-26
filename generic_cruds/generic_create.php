@@ -9,7 +9,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 try{
     // Verification that used method is correct
     if($_SERVER['REQUEST_METHOD'] != 'POST'){ // Change with good method
-        throw new Exception("Invalid request method. Only POST is allowed", 405);
+        throw new InvalidArgumentException("Invalid request method. Only POST is allowed", 405);
     }
         // Including files for config and data access
         include_once '../../Database.php';
@@ -22,9 +22,11 @@ try{
         // Records instanciation
         $crudObject = new CRUD($db);
 
-        // Get back sended informations
-        $datas = json_decode(file_get_contents("php://input"));
-
+    // Get input data
+    $input = file_get_contents("php://input");
+    if (!$input = json_decode($input)) {
+        throw new InvalidArgumentException("Invalid input data. Must be valid JSON", 405);
+    }
         foreach($arguments as $argument){
             if(isset($datas->$argument)){
                 //here we receive datas, we hydrate our object
