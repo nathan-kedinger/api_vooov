@@ -57,7 +57,7 @@ class CRUD{
 
 
     /**
-     * Reading users
+     * Reading 
      *
      *@param string $sql the sql query to prepare
      *@return object return the query object
@@ -75,7 +75,7 @@ class CRUD{
 
 
     /**
-     * Reading one user
+     * Reading one 
      * 
      * @param array $arguments the columns to select in the table
      * @param string $sql the sql query to prepare
@@ -98,7 +98,7 @@ class CRUD{
 
 
     /**
-     * Update user
+     * Update 
      *      
      * @param array $arguments the columns to select in the table
      * @param string $sql the sql query to prepare
@@ -134,7 +134,7 @@ class CRUD{
 
 
     /**
-     * Delete user
+     * Delete 
      * 
      * @param string $sql the sql query to prepare
      * @return boolean
@@ -154,4 +154,5 @@ class CRUD{
 
         return false;
     }
+
 }

@@ -30,6 +30,7 @@ $tabUsers = [
     $firstname = "firstname",
     $email = "email",
     $password = "password",
+    $birthday = "birthday",
     $phone = "phone",
     $description = "description",
     $number_of_followers = "number_of_followers",
