@@ -13,7 +13,7 @@ try{
     * @throws InvalidArgumentException if the request method is not POST or if the input data is not valid JSON
     */
     // Verification that used method is correct
-    if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] != 'POST'){ // Change with good method
+    if($_SERVER['REQUEST_METHOD'] != 'POST'){ // Change with good method
         throw new InvalidArgumentException("Invalid request method. Only POST is allowed", 405);
     }
         // Including files for config and data access
