@@ -33,9 +33,9 @@ try{
         throw new InvalidArgumentException("Invalid input data. Must be valid JSON", 405);
     }
         foreach($arguments as $argument){
-            if(isset($datas->$argument)){
+            if(isset($input->$argument)){
                 //here we receive datas, we hydrate our object
-                $crudObject->$argument = $datas->$argument;
+                $crudObject->$argument = $input->$argument;
             }else{
                 // We catch the error
                 http_response_code(400);
