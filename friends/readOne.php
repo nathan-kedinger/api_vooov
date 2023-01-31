@@ -4,10 +4,12 @@
     // Expected table
     $table = "friends"; // Change with the good BDD table name
 
+    $theOneToGet = "uuid"; // Change with the good column
+
     $arguments = $tabFriends;// Replace with the good tab
 
     $sql = "SELECT ". implode(', ', array_map(function($argument) 
     { return $argument; }, $arguments)) . " FROM " . $table ."
-    WHERE uuid = ? LIMIT 0,1";
+    WHERE ". $theOneToGet ." = ? LIMIT 0,1";
 
     include_once '../generic_cruds/generic_readOne.php';
