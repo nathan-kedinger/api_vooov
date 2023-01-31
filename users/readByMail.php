@@ -8,6 +8,6 @@
 
     $sql = "SELECT ". implode(', ', array_map(function($argument) 
     { return $argument; }, $arguments)) . " FROM " . $table ."
-    WHERE uuid = ? LIMIT 0,1";
+    WHERE email = ? LIMIT 0,1";
 
     include_once '../special_cruds/generic_readOneUserByMail.php';
