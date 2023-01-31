@@ -12,4 +12,4 @@
     { return $argument; }, $arguments)) . " FROM " . $table ."
     WHERE ". $theOneToGet ." = ? LIMIT 0,1";
 
-    include_once '../special_cruds/generic_readOne.php';
+    include_once '../generic_cruds/generic_readOne.php';
