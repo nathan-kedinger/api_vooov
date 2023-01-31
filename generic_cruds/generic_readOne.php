@@ -24,11 +24,11 @@ try{
         $database = new Database();
         $db = $database->getConnection();
 
-        // crudObject$crudObjects instanciation
+        // crudObject instanciation
         $crudObject = new CRUD($db);
 
-        // Get uuid from url
-        $uuid = $_GET['uuid'];
+        // Get uuid from url Remplacer par oneToGet
+        $uuid = $_GET[$theOneToGet];
 
         // Verifying that we have at least one crudObject
         if (!empty($uuid)) {
