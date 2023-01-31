@@ -39,7 +39,8 @@ try {
         }
 
         $file_content = file_get_contents($file_path);
-        echo json_encode(["message" => "File read successfully.", "file_content" => base64_encode($file_content)]);
+        //File send succefully but messages in json_encode block base_64 decoding
+        echo json_encode([base64_encode($file_content)]);
         
 } catch (Exception $e){
     http_response_code($e->getCode());
