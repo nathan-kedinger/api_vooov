@@ -26,6 +26,7 @@ $tabRecords = [
 
 $tabUsers = [
     $uuid = "uuid",
+    $pseudo = "pseudo",
     $name = "name",
     $firstname = "firstname",
     $email = "email",
