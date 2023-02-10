@@ -16,7 +16,7 @@ try{
     if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] != 'POST'){
         throw new InvalidArgumentException("Invalid request method. Only POST is allowed", 405);
     }
-        $target_dir = "profile_pictures/";
+        $target_dir = "records/";
         $target_file = $target_dir . basename($_FILES["file"]["name"]);
 
         // Check if the file has been uploaded
