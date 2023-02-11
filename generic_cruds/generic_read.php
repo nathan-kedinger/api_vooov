@@ -13,6 +13,10 @@ try{
     * @throws InvalidArgumentException if the request method is not GET
     */
     // Verification that used method is correct
+    
+    // Ouvre un fichier pour écrire les journaux d'appel API
+    $logFile = fopen('logs.log', 'a');
+    
     if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] != 'GET'){
         throw new Exception("Invalid request method. Only GET is allowed", 405);
     }
@@ -55,8 +59,7 @@ try{
             echo json_encode(["message" => "There is no row in that table"]);
         }
     
-// Ouvre un fichier pour écrire les journaux d'appel API
-$logFile = fopen('logs.log', 'a');
+
 
 // Écrivez les détails de la requête dans le fichier de journal
 fwrite($logFile, "Method: " . $_SERVER['REQUEST_METHOD'] . "\n");

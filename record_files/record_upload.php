@@ -60,5 +60,5 @@ try{
 } catch (Exception $e){
     http_response_code($e->getCode());
     echo json_encode(["Message" => $e->getMessage()]);
-    error_log($e->getMessage(),0,'../error_logs.txt');
+    error_log($e->getMessage(),0,'../error_logs.log');
 }
