@@ -40,7 +40,7 @@ try{
         $file_mime = mime_content_type($_FILES["file"]["tmp_name"]);
         if ($file_mime != 'audio/mp4' && $file_mime != 'audio/mpeg' && $file_mime != 'audio/ogg' && 
         $file_mime != 'audio/wav' && $file_mime != 'audio/x-flac' && $file_mime != 'audio/3gpp'){
-        throw new InvalidArgumentException("Invalid input file. Must be one of .mp4, .mpeg, .ogg, .wav, .3gpp, or .flac", 400);
+        throw new InvalidArgumentException("Invalid input file. Must be one of .mp4, .mpeg, .ogg, .wav, .3gpp, or .flac", 408);
         }
 
         // Check file size
