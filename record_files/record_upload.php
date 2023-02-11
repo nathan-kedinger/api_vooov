@@ -21,32 +21,32 @@ try{
 
         // Check if the file has been uploaded
         if (!isset($_FILES['file']['error']) || is_array($_FILES['file']['error'])) {
-            throw new InvalidArgumentException("Invalid input data. Must be valid file", 407);
+            throw new InvalidArgumentException("Invalid input data. Must be valid file", 400);
         }
 
         switch ($_FILES['file']['error']) {
             case UPLOAD_ERR_OK:
                 break;
             case UPLOAD_ERR_NO_FILE:
-                throw new InvalidArgumentException("No file sent", 401);
+                throw new InvalidArgumentException("No file sent", 400);
             case UPLOAD_ERR_INI_SIZE:
             case UPLOAD_ERR_FORM_SIZE:
-                throw new InvalidArgumentException("Exceeded filesize limit", 402);
+                throw new InvalidArgumentException("Exceeded filesize limit", 400);
             default:
-                throw new InvalidArgumentException("Unknown errors", 403);
+                throw new InvalidArgumentException("Unknown errors", 400);
         }
 
         // Check file mime type
-        $file_mime = mime_content_type($_FILES["file"]["tmp_name"]);
+        /*$file_mime = mime_content_type($_FILES["file"]["tmp_name"]);
         if ($file_mime != 'audio/mp4' && $file_mime != 'audio/mpeg' && $file_mime != 'audio/ogg' && 
         $file_mime != 'audio/wav' && $file_mime != 'audio/x-flac' && $file_mime != 'audio/3gpp'){
         throw new InvalidArgumentException("Invalid input file. Must be one of .mp4, .mpeg, .ogg, .wav, .3gpp, or .flac", 408);
-        }
+        }*/
 
         // Check file size
         $file_size = $_FILES["file"]["size"];
         if($file_size > 3000000){
-            throw new InvalidArgumentException("File is to big. Max size is 3Mo", 406);
+            throw new InvalidArgumentException("File is to big. Max size is 3Mo", 400);
         }
 
         // Move uploaded file to target directory
