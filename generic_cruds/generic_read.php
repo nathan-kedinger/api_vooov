@@ -5,7 +5,15 @@ header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+    // Ouvre un fichier pour écrire les journaux d'appel API
+    $logFile = fopen('logs.log', 'a');
+    // Écrivez les détails de la requête dans le fichier de journal
+    fwrite($logFile, "Method: " . $_SERVER['REQUEST_METHOD'] . "\n");
+    fwrite($logFile, "URL: " . $_SERVER['REQUEST_URI'] . "\n");
+    fwrite($logFile, "Headers: " . print_r(getallheaders(), true) . "\n\n");
 
+    // Ferme le fichier de journal
+    fclose($logFile);
 try{
     /**
     * Script to handle a GET request
@@ -14,8 +22,7 @@ try{
     */
     // Verification that used method is correct
     
-    // Ouvre un fichier pour écrire les journaux d'appel API
-    $logFile = fopen('logs.log', 'a');
+
     
     if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] != 'GET'){
         throw new Exception("Invalid request method. Only GET is allowed", 405);
@@ -61,13 +68,7 @@ try{
     
 
 
-// Écrivez les détails de la requête dans le fichier de journal
-fwrite($logFile, "Method: " . $_SERVER['REQUEST_METHOD'] . "\n");
-fwrite($logFile, "URL: " . $_SERVER['REQUEST_URI'] . "\n");
-fwrite($logFile, "Headers: " . print_r(getallheaders(), true) . "\n\n");
 
-// Ferme le fichier de journal
-fclose($logFile);
 
 } catch (Exception $e){
     http_response_code($e->getCode());
