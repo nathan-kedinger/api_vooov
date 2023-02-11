@@ -1,6 +1,4 @@
 <?php
-    // Ouvre un fichier pour écrire les journaux d'appel API
-    $logFile = fopen('logs.log', 'a');
 // Headers
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -8,13 +6,6 @@ header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-    // Écrivez les détails de la requête dans le fichier de journal
-    fwrite($logFile, "Method: " . $_SERVER['REQUEST_METHOD'] . "\n");
-    fwrite($logFile, "URL: " . $_SERVER['REQUEST_URI'] . "\n");
-    fwrite($logFile, "Headers: " . print_r(getallheaders(), true) . "\n\n");
-
-    // Ferme le fichier de journal
-    fclose($logFile);
 try{
     /**
     * Script to handle a GET request

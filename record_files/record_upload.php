@@ -21,19 +21,19 @@ try{
 
         // Check if the file has been uploaded
         if (!isset($_FILES['file']['error']) || is_array($_FILES['file']['error'])) {
-            throw new InvalidArgumentException("Invalid input data. Must be valid file", 400);
+            throw new InvalidArgumentException("Invalid input data. Must be valid file", 407);
         }
 
         switch ($_FILES['file']['error']) {
             case UPLOAD_ERR_OK:
                 break;
             case UPLOAD_ERR_NO_FILE:
-                throw new InvalidArgumentException("No file sent", 400);
+                throw new InvalidArgumentException("No file sent", 401);
             case UPLOAD_ERR_INI_SIZE:
             case UPLOAD_ERR_FORM_SIZE:
-                throw new InvalidArgumentException("Exceeded filesize limit", 400);
+                throw new InvalidArgumentException("Exceeded filesize limit", 402);
             default:
-                throw new InvalidArgumentException("Unknown errors", 400);
+                throw new InvalidArgumentException("Unknown errors", 403);
         }
 
         // Check file mime type
@@ -46,7 +46,7 @@ try{
         // Check file size
         $file_size = $_FILES["file"]["size"];
         if($file_size > 3000000){
-            throw new InvalidArgumentException("File is to big. Max size is 3Mo", 400);
+            throw new InvalidArgumentException("File is to big. Max size is 3Mo", 406);
         }
 
         // Move uploaded file to target directory
