@@ -10,7 +10,7 @@ try{
     /**
     * Script to handle a POST request
     *
-    * @throws InvalidArgumentException if the request method is not POST or if the input fil is not valid JSON
+    * @throws InvalidArgumentException if the request method is not POST or if the input file is not valid JSON
     */
     // Verification that used method is correct
     if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] != 'POST'){

@@ -55,6 +55,17 @@ try{
             echo json_encode(["message" => "There is no row in that table"]);
         }
     
+// Ouvre un fichier pour écrire les journaux d'appel API
+$logFile = fopen('logs.log', 'a');
+
+// Écrivez les détails de la requête dans le fichier de journal
+fwrite($logFile, "Method: " . $_SERVER['REQUEST_METHOD'] . "\n");
+fwrite($logFile, "URL: " . $_SERVER['REQUEST_URI'] . "\n");
+fwrite($logFile, "Headers: " . print_r(getallheaders(), true) . "\n\n");
+
+// Ferme le fichier de journal
+fclose($logFile);
+
 } catch (Exception $e){
     http_response_code($e->getCode());
     echo json_encode(["Message" => $e->getMessage()]);
