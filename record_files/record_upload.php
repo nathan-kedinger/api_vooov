@@ -36,12 +36,12 @@ try{
                 throw new InvalidArgumentException("Unknown errors", 400);
         }
 
-        // Check file mime type
+        /*// Check file mime type
         $file_mime = mime_content_type($_FILES["file"]["tmp_name"]);
         if ($file_mime != 'audio/mp4' && $file_mime != 'audio/mpeg' && $file_mime != 'audio/ogg' && 
         $file_mime != 'audio/wav' && $file_mime != 'audio/x-flac' && $file_mime != 'audio/3gpp'){
         throw new InvalidArgumentException("Invalid input file. Must be one of .mp4, .mp3, .ogg, .wav, .3gp, or .flac", 408);
-        }
+        }*/
 
         // Check file size
         $file_size = $_FILES["file"]["size"];
