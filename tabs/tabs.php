@@ -12,7 +12,6 @@ $tabMessages = [
 
 $tabRecords = [
     $uuid = "uuid",
-    $id = "1",
     $artist_uuid= "artist_uuid",
     $title= "title",
     $length= "length",
