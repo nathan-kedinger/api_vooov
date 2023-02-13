@@ -4,7 +4,7 @@
     // Expected table
     $table = "audio_records"; // Change with the good BDD table name
 
-    $theOneToGet = "uuid"; // Change with the good column
+    $theOneToGet = "id"; // Change with the good column
 
     $arguments = $tabRecords;// Replace with the good tab
 
