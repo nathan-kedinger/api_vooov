@@ -14,9 +14,8 @@ try{
     * @throws InvalidArgumentException if the request method is not PUT or if the input data is not valid JSON
     */
     // Verification that used method is correct
-    // Verification that used method is correct
     if($_SERVER['REQUEST_METHOD'] != 'PUT'){ // Change with good method
-        throw new Exception("Invalid request method. Only POST is allowed", 405);
+        throw new Exception("Invalid request method. Only PUT is allowed", 405);
     }
         // Including files for config and data access
         include_once '../../Database.php';
@@ -34,6 +33,7 @@ try{
     if (!$input = json_decode($input)) {
         throw new InvalidArgumentException("Invalid input data. Must be valid JSON", 405);
     }
+        $datas = $input;
         foreach($arguments as $argument){
             if(isset($datas->$argument)){
                 //here we receive datas, we hydrate our object
