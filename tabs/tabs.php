@@ -25,7 +25,7 @@ $tabRecordsRead = [
     $updated_at= "updated_at"
 ];
 
-$tabRecordsRead = [
+$tabRecords = [
     $uuid = "uuid",
     $artist_uuid= "artist_uuid",
     $title= "title",
