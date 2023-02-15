@@ -10,9 +10,23 @@ $tabMessages = [
     $send_at = "send_at" 
 ];
 
-$tabRecords = [
+$tabRecordsRead = [
     $uuid = "uuid",
     $id = "id",
+    $artist_uuid= "artist_uuid",
+    $title= "title",
+    $length= "length",
+    $number_of_plays= "number_of_plays",
+    $number_of_moons= "number_of_moons",
+    $voice_style= "voice_style",
+    $kind= "kind",
+    $description= "description",
+    $created_at= "created_at",
+    $updated_at= "updated_at"
+];
+
+$tabRecordsRead = [
+    $uuid = "uuid",
     $artist_uuid= "artist_uuid",
     $title= "title",
     $length= "length",
