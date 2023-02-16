@@ -73,6 +73,22 @@ class CRUD{
         return $query;
     }
 
+    /**
+     * Reading 
+     *
+     *@param string $sql the sql query to prepare
+     *@return object return the query object
+     */
+    public function readPlural($sql, $params = []){
+
+        // Request preparation
+        $query = $this->connection->prepare($sql);
+
+        $query->execute($params);
+
+        //return the result
+        return $query;
+    }
 
     /**
      * Reading one 

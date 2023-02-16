@@ -43,7 +43,7 @@ include_once '../tabs/tabs.php';
         $crudObject = new CRUD($db);
     
         // Get datas
-        $stmt = $crudObject->read($sql, [$theOneToGet]);
+        $stmt = $crudObject->readPlural($sql, [$theOneToGet]);
     
         // Verifying that we have at least one row in database
         if($stmt->rowCount() > 0){
