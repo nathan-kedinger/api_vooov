@@ -10,6 +10,6 @@
 
     $sql = "SELECT ". implode(', ', array_map(function($argument) 
     { return $argument; }, $arguments)) . " FROM " . $table ."
-    WHERE ". $theOneToGet ." = ? ";
+    WHERE ". $theOneToGet ." = ? LIMIT 0,1";
 
     include_once '../generic_cruds/generic_readOne.php';
