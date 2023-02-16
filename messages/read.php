@@ -4,6 +4,8 @@
     // Expected table
     $table = "messages";
 
+    $theOneToGet = "conversation_uuid";
+
     // Datas
     $arguments = $tabMessages;// Replace with the good tab
 
