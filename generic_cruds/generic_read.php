@@ -13,9 +13,6 @@ try{
     * @throws InvalidArgumentException if the request method is not GET
     */
     // Verification that used method is correct
-    
-
-    
     if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] != 'GET'){
         throw new Exception("Invalid request method. Only GET is allowed", 405);
     }
