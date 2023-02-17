@@ -12,7 +12,7 @@ include_once '../tabs/tabs.php';
     $table = "conversations";
 
     // Datas
-    $arguments = $tabMessages;// Replace with the good tab
+    $arguments = $tabConversations;// Replace with the good tab
 
     // SQL request
     $sql = "SELECT " . implode(', ', array_map(function($argument) 
@@ -43,7 +43,7 @@ include_once '../tabs/tabs.php';
     
         // Get datas
         $stmt = $crudObject->readPlural($sql, [$_GET["sender"], $_GET["receiver"]]);
-    
+
         // Verifying that we have at least one row in database
         if($stmt->rowCount() > 0){
             //initialisation of an associative tab
@@ -53,12 +53,10 @@ include_once '../tabs/tabs.php';
             $data = array();
     
             while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-                extract($row);
-    
+                $data = array();
                 foreach($arguments as $argument){
                     $data[$argument] = $row[$argument];
                 }
-    
                 $showedDatas[] = $data;
             }
             http_response_code(200);
