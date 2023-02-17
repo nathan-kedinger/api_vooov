@@ -42,7 +42,7 @@ include_once '../tabs/tabs.php';
         $crudObject = new CRUD($db);
     
         // Get datas
-        $stmt = $crudObject->readPlural($sql, [$_GET["sender"]]);
+        $stmt = $crudObject->readPlural($sql, [$_GET["sender"], $_GET["receiver"]]);
 
         // Verifying that we have at least one row in database
         if($stmt->rowCount() > 0){
