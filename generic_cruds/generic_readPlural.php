@@ -52,7 +52,7 @@ try{
     
             echo json_encode($showedDatas);
         }else{
-            http_response_code(400);
+            http_response_code(400); 
             echo json_encode(["message" => "There is no row in that table"]);
         }
     
